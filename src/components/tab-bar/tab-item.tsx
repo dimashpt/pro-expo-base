@@ -1,5 +1,5 @@
 import React, { JSX, useEffect } from 'react';
-import { LayoutChangeEvent, View } from 'react-native';
+import { LayoutChangeEvent, Text, View } from 'react-native';
 
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import Animated, {
@@ -12,7 +12,6 @@ import { twMerge } from 'tailwind-merge';
 import { useCSSVariable } from 'uniwind';
 
 import { Clickable } from '@/components/clickable';
-import { Text } from '@/components/text';
 import { screenWidth } from '@/hooks';
 import { Icon, IconNames } from '../icon';
 
@@ -108,7 +107,6 @@ export const TabItem = ({
           />
         </Animated.View>
         <Text
-          variant="labelXS"
           className={twMerge(
             'text-center text-xs',
             isFocused ? 'text-accent' : 'text-muted-foreground/70',

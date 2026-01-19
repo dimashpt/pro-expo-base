@@ -67,22 +67,3 @@ export const optionalEmailSchema = z.preprocess(
   (val) => (val === '' ? undefined : val),
   baseEmail.optional(),
 );
-
-// ============================================================================
-// Phone Validation
-// ============================================================================
-
-const basePhone = z
-  .string({ error: required })
-  .startsWith('+62', { error: startsWith })
-  .min(10, { error: minimum });
-
-export const phoneSchema = z.preprocess(
-  (val) => (val === '' ? undefined : val),
-  basePhone,
-);
-
-export const optionalPhoneSchema = z.preprocess(
-  (val) => (val === '' ? undefined : val),
-  basePhone.optional(),
-);

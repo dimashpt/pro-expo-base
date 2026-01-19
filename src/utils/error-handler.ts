@@ -2,7 +2,6 @@ import axios, { AxiosError } from 'axios';
 import { FieldPath, FieldValues, UseFormReturn } from 'react-hook-form';
 
 import { ErrorResponse } from '@/@types/api';
-import { snackbar } from '@/components/snackbar';
 import { i18n } from '@/lib/i18n';
 
 function getStandarizedErrorMessage(
@@ -93,8 +92,6 @@ export function handleMutationError<T extends FieldValues>(
 
   // Fallback error handling
   if (showSnackbar) {
-    snackbar.error(
-      message || fallbackMessage || i18n.t('general.error.unexpected_error'),
-    );
+    // TODO: Show feedback to user via snackbar/toast
   }
 }

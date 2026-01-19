@@ -3,15 +3,13 @@ import { useEffect } from 'react';
 import {
   DefinedInitialDataOptions,
   useQuery,
-  UseQueryOptions,
   UseQueryResult,
 } from '@tanstack/react-query';
 
 import { useAuthStore } from '@/store';
+import { getProfile } from '.';
 import { profileKeys } from '../constants/keys';
-import * as UserService from './index';
-import { getChatProfile } from './index';
-import { ChatProfileResponse, ProfileResponse } from './types';
+import { ProfileResponse } from './types';
 
 type UserQuery = Omit<
   Partial<
@@ -33,12 +31,13 @@ type UserQuery = Omit<
 export function useProfileQuery(
   params: UserQuery = {},
 ): UseQueryResult<ProfileResponse, Error> {
+  const { setUser } = useAuthStore();
+
   const query = useQuery({
     ...params,
     queryKey: profileKeys.profile,
-    queryFn: UserService.getProfile,
+    queryFn: getProfile,
   });
-  const { setUser } = useAuthStore();
 
   useEffect(() => {
     // Always update the user info in the auth store when the query data changes
@@ -46,26 +45,6 @@ export function useProfileQuery(
       setUser(query.data.user);
     }
   }, [query.data]);
-
-  return query;
-}
-
-/**
- * Custom hook to fetch the chat profile for the given account.
- * @param queryOptions - Optional parameters for the query.
- * @returns The query object containing the chat profile.
- */
-export function useChatProfileQuery<T = ChatProfileResponse>(
-  queryOptions: Omit<
-    UseQueryOptions<ChatProfileResponse, Error, T>,
-    'queryKey' | 'queryFn'
-  > = {},
-): UseQueryResult<T, Error> {
-  const query = useQuery({
-    ...queryOptions,
-    queryKey: profileKeys.chatProfile,
-    queryFn: getChatProfile,
-  });
 
   return query;
 }

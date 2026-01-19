@@ -3,8 +3,6 @@ import { JSX } from 'react';
 import { Stack } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 
-import { Header } from '@/components';
-
 export default function GuardLayout(): JSX.Element {
   const { t } = useTranslation();
   const SCREENS: ScreenMap[] = [
@@ -38,9 +36,6 @@ export default function GuardLayout(): JSX.Element {
           name={screen.path}
           options={{
             headerShown: screen.headerShown,
-            header: (props) => (
-              <Header nativeProps={props} title={screen.title} />
-            ),
           }}
         />
       ))}

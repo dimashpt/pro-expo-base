@@ -6,8 +6,8 @@
     {
       "layers" : [
         {
-          "image-name" : "logo.png",
-          "name" : "logo",
+          "image-name" : "rocket.png",
+          "name" : "rocket",
           "position" : {
             "scale" : 1,
             "translation-in-points" : [
