@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import 'uniwind';
+@import 'heroui-native/styles';
 
 @import './radius.css';
 @import './spacing.css';
@@ -13,6 +14,7 @@
  * See more: https://github.com/Unistyles-OSS/uniwind/issues/133#issuecomment-3485215951
  */
 @source '../';
+@source '../../node_modules/heroui-native/lib';
 
 @layer theme {
   :root {
@@ -23,122 +25,93 @@
 
     /* Light theme semantic tokens */
     @variant light {
-      --color-background: #f2f2f2;
-      --color-foreground: #1a1a1a;
-      --color-foreground-inverted: #f2f2f2;
-      --color-surface: #ffffff;
-
-      --color-accent: #203864;
-      --color-accent-soft: color-mix(
-        in oklab,
-        var(--color-accent) 15%,
-        transparent
-      );
-      --color-accent-foreground: #f5f9fb;
-
-      --color-info: #8bceff;
-      --color-info-soft: color-mix(
-        in oklab,
-        var(--color-info) 15%,
-        transparent
-      );
-      --color-info-foreground: #003161;
-
-      --color-success: #08c253;
-      --color-success-soft: color-mix(
-        in oklab,
-        var(--color-success) 15%,
-        transparent
-      );
-      --color-success-foreground: #002d18;
-
-      --color-warning: #fed487;
-      --color-warning-soft: color-mix(
-        in oklab,
-        var(--color-warning) 15%,
-        transparent
-      );
-      --color-warning-foreground: #402900;
-
-      --color-danger: #ea2f6a;
-      --color-danger-soft: color-mix(
-        in oklab,
-        var(--color-danger) 15%,
-        transparent
-      );
-      --color-danger-foreground: #fcf7f7;
-
-      --color-field-background: #f7f7f7;
-      --color-field-foreground: var(--color-foreground);
-      --color-field-placeholder: #797979;
-      --color-field-border: #eeeeee;
-      --color-field-disabled: #dedede;
-
-      --color-muted: #dedede;
-      --color-muted-foreground: #797979;
-      --color-border: #efefef;
-      --color-focus: var(--color-accent);
+      /* Base Colors */
+      --background: oklch(0.95 0.02 230);
+      --foreground: oklch(0.25 0.04 230);
+      /* Surface: Used for non-overlay components (cards, accordions, disclosure groups) */
+      --surface: oklch(0.98 0.01 230);
+      --surface-foreground: oklch(0.3 0.045 230);
+      /* Overlay: Used for floating/overlay components (dialogs, popovers, modals, menus) */
+      --overlay: oklch(0.998 0.003 230);
+      --overlay-foreground: oklch(0.3 0.045 230);
+      --muted: oklch(0.55 0.035 230);
+      --default: oklch(0.94 0.018 230);
+      --default-foreground: oklch(0.4 0.05 230);
+      /* Accent */
+      --accent: oklch(0.6 0.2 230);
+      --accent-foreground: oklch(0.98 0.005 230);
+      /* Form Field Defaults - Colors */
+      --field-background: oklch(0.98 0.01 230);
+      --field-foreground: oklch(0.25 0.04 230);
+      --field-placeholder: var(--muted);
+      --field-border: transparent;
+      /* Status Colors */
+      --success: oklch(0.72 0.14 165);
+      --success-foreground: oklch(0.25 0.08 165);
+      --warning: oklch(0.78 0.12 85);
+      --warning-foreground: oklch(0.3 0.08 85);
+      --danger: oklch(0.68 0.18 15);
+      --danger-foreground: oklch(0.98 0.005 15);
+      /* Component Colors */
+      --segment: oklch(0.98 0.01 230);
+      --segment-foreground: oklch(0.25 0.04 230);
+      /* Misc Colors */
+      --border: oklch(0 0 0 / 0%);
+      --divider: oklch(0.91 0.015 230);
+      --link: oklch(0.62 0.17 230);
+      /* Shadows */
+      /* --surface-shadow: 0 0px 0px 0 rgba(24, 24, 27, 0.03), 0 2px 10px 0 rgba(24, 24, 27, 0.08); */
+      --surface-shadow:
+        0 2px 4px 0 rgba(0, 0, 0, 0.04), 0 1px 2px 0 rgba(0, 0, 0, 0.06),
+        0 0 1px 0 rgba(0, 0, 0, 0.06);
+      /* Overlay shadow */
+      --overlay-shadow:
+        0 4px 16px 0 rgba(24, 24, 27, 0.08), 0 8px 24px 0 rgba(24, 24, 27, 0.09);
+      --field-shadow:
+        0 2px 4px 0 rgba(0, 0, 0, 0.04), 0 1px 2px 0 rgba(0, 0, 0, 0.06),
+        0 0 1px 0 rgba(0, 0, 0, 0.06);
     }
 
     /* Dark theme semantic tokens */
     @variant dark {
-      --color-background: #121212;
-      --color-foreground: #e8e8e8;
-      --color-foreground-inverted: #121212;
-      --color-surface: #1c1c1c;
-
-      --color-accent: #f0f0f0;
-      --color-accent-soft: color-mix(
-        in oklab,
-        var(--color-accent) 12%,
-        transparent
-      );
-      --color-accent-foreground: #121212;
-
-      --color-info: #6bb8ff;
-      --color-info-soft: color-mix(
-        in oklab,
-        var(--color-info) 12%,
-        transparent
-      );
-      --color-info-foreground: #003161;
-
-      --color-success: #00b14a;
-      --color-success-soft: color-mix(
-        in oklab,
-        var(--color-success) 12%,
-        transparent
-      );
-      --color-success-foreground: #002d18;
-
-      --color-warning: #f6c270;
-      --color-warning-soft: color-mix(
-        in oklab,
-        var(--color-warning) 12%,
-        transparent
-      );
-      --color-warning-foreground: #402900;
-
-      --color-danger: #ff4b84;
-      --color-danger-soft: color-mix(
-        in oklab,
-        var(--color-danger) 12%,
-        transparent
-      );
-      --color-danger-foreground: #fcf7f7;
-
-      /* Form Fields */
-      --color-field-background: #1a1a1a;
-      --color-field-foreground: var(--color-foreground);
-      --color-field-placeholder: #9b9b9b;
-      --color-field-border: #2a2a2a;
-      --color-field-disabled: #2a2a2a;
-
-      /* Muted & Borders */
-      --color-muted: #2c2c2c;
-      --color-muted-foreground: #b3b3b3;
-      --color-border: #2c2c2c;
-      --color-focus: var(--color-accent);
+      /* Base Colors */
+      --background: oklch(0.15 0.04 230);
+      --foreground: oklch(0.94 0.01 230);
+      /* Surface: Used for non-overlay components (cards, accordions, disclosure groups) */
+      --surface: oklch(0.2 0.048 230);
+      --surface-foreground: oklch(0.9 0.015 230);
+      /* Overlay: Used for floating/overlay components (dialogs, popovers, modals, menus) */
+      --overlay: oklch(0.23 0.045 230);
+      --overlay-foreground: oklch(0.9 0.015 230);
+      --muted: oklch(0.5 0.04 230);
+      --default: oklch(0.25 0.05 230);
+      --default-foreground: oklch(0.88 0.018 230);
+      /* Accent */
+      --accent: oklch(0.72 0.21 230);
+      --accent-foreground: oklch(0.15 0.04 230);
+      /* Form Field Defaults - Colors */
+      --field-background: var(--default);
+      --field-foreground: var(--foreground);
+      --field-placeholder: var(--muted);
+      --field-border: transparent;
+      /* Status Colors */
+      --success: oklch(0.68 0.16 165);
+      --success-foreground: oklch(0.95 0.008 165);
+      --warning: oklch(0.75 0.14 90);
+      --warning-foreground: oklch(0.2 0.04 90);
+      --danger: oklch(0.65 0.2 20);
+      --danger-foreground: oklch(0.95 0.008 20);
+      /* Component Colors */
+      --segment: oklch(0.22 0.046 230);
+      --segment-foreground: oklch(0.9 0.015 230);
+      /* Misc Colors */
+      --border: oklch(0 0 0 / 0%);
+      --divider: oklch(0.28 0.045 230);
+      --link: oklch(0.75 0.18 230);
+      /* Shadows */
+      --surface-shadow: 0 0 0 0 transparent inset; /* No shadow on dark mode */
+      --overlay-shadow: 0 0 0 0 transparent inset; /* No shadow on dark mode */
+      --field-shadow: 0 0 0 0 transparent inset; /* Transparent shadow to allow ring utilities to work */
     }
   }
 }
