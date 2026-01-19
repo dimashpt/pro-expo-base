@@ -1,0 +1,471 @@
+{
+  "general": {
+    "greeting": "Halo dunia!",
+    "close": "Tutup",
+    "submit": "Kirim",
+    "yes": "Ya",
+    "no": "Tidak",
+    "cancel": "Batal",
+    "confirm": "Konfirmasi",
+    "delete": "Hapus",
+    "loading": "Memuat...",
+    "updating": "Memperbarui... {{progress}}%",
+    "update_available": "Pembaruan Tersedia",
+    "error": {
+      "something_went_wrong": "Terjadi kesalahan",
+      "unexpected_error": "Ada kesalahan terjadi",
+      "session_expired": "Sesi berakhir"
+    },
+    "done": "Selesai",
+    "no_data_description": "Tidak ada data yang tersedia saat ini",
+    "no_data_found": "Tidak ada hasil yang ditemukan untuk '{{search}}'",
+    "continue": "Lanjutkan",
+    "search": "Cari",
+    "create": "Tambahkan Baru"
+  },
+  "tab": {
+    "home": "Home",
+    "profile": "Profil",
+    "orders": "Pesanan",
+    "products": "Produk",
+    "chat": "Percakapan",
+    "notification": "Notifikasi"
+  },
+  "date_time_picker": {
+    "pick_range": "Pilih Rentang",
+    "select_date": "Pilih Tanggal",
+    "range_instruction_start": "Pilih tanggal mulai",
+    "range_instruction_end": "Pilih tanggal akhir"
+  },
+  "login": {
+    "title": "Masuk ke akunmu",
+    "description": "Silakan masukkan kredensial Anda untuk melanjutkan",
+    "form": {
+      "email": "Alamat Email",
+      "password": "Kata Sandi",
+      "submit": "Masuk",
+      "forgot": "Lupa Kata Sandi?",
+      "error": {
+        "email_required": "Email wajib diisi",
+        "email_invalid": "Alamat email tidak valid",
+        "password_required": "Kata sandi wajib diisi",
+        "password_min": "Kata sandi minimal 6 karakter"
+      },
+      "password_placeholder": "Masukkan kata sandi"
+    },
+    "message": {
+      "success": "Berhasil masuk"
+    }
+  },
+  "forgot": {
+    "title": "Lupa Kata Sandi",
+    "heading": "Lupa Kata Sandi?",
+    "description": "Masukkan alamat email Anda dan kami akan mengirimkan tautan untuk mereset kata sandi Anda",
+    "form": {
+      "email": "Email",
+      "submit": "Kirim Tautan Reset",
+      "error": {
+        "email_required": "Email wajib diisi",
+        "email_invalid": "Alamat email tidak valid"
+      }
+    },
+    "message": {
+      "success": "Tautan reset kata sandi telah dikirim ke email Anda"
+    }
+  },
+  "reset_password": {
+    "title": "Reset Kata Sandi",
+    "heading": "Reset Kata Sandi Anda",
+    "description": "Silakan masukkan kata sandi baru Anda",
+    "password": "Kata Sandi Baru",
+    "confirm_password": "Konfirmasi Kata Sandi",
+    "form": {
+      "submit": "Reset Kata Sandi"
+    },
+    "error": {
+      "password_required": "Kata sandi wajib diisi",
+      "password_min_length": "Kata sandi minimal 8 karakter",
+      "confirm_password_required": "Konfirmasi kata sandi wajib diisi",
+      "password_match": "Kata sandi tidak cocok",
+      "no_spaces": "Kata sandi tidak boleh mengandung spasi",
+      "no_emoji": "Kata sandi tidak boleh mengandung emoji"
+    },
+    "message": {
+      "success": "Berhasil mengubah password"
+    }
+  },
+  "password_complexity": {
+    "uppercase": "Kata sandi harus mengandung minimal satu huruf besar",
+    "lowercase": "Kata sandi harus mengandung minimal satu huruf kecil",
+    "number": "Kata sandi harus mengandung minimal satu angka",
+    "special": "Kata sandi harus mengandung minimal satu karakter khusus"
+  },
+  "profile": {
+    "title": "Profil",
+    "logout": "Keluar",
+    "preferences": "Preferensi",
+    "developer_features": "Fitur Pengembang",
+    "language": "Bahasa",
+    "theme": "Tema",
+    "push_notifications": "Notifikasi Push",
+    "clear_cache": "Hapus Cache",
+    "developer_tools": "Alat Pengembang",
+    "description": "Ini akan menghapus semua data cache. Anda mungkin perlu masuk lagi.",
+    "logout_confirmation_description": "Apakah Anda yakin ingin keluar?",
+    "message": {
+      "logout_success": "Berhasil keluar",
+      "pending_attendance_removed": "Cache berhasil dihapus"
+    },
+    "beta_code": {
+      "label": "Kode Pengembang",
+      "placeholder": "Masukkan kode pengembang",
+      "error": {
+        "code_required": "Kode pengembang wajib diisi",
+        "invalid": "Kode pengembang tidak valid"
+      },
+      "message": {
+        "title": "Masukkan Kode Pengembang",
+        "title_deactivate": "Nonaktifkan Fitur Pengembang",
+        "activated": "Fitur pengembang diaktifkan",
+        "deactivated": "Fitur pengembang dinonaktifkan"
+      }
+    },
+    "storybook": "Storybook"
+  },
+  "select_input": {
+    "placeholder": "Pilih opsi",
+    "min_characters": "Silakan masukkan minimal 3 karakter",
+    "no_results": "Tidak ada hasil untuk '{{search}}'"
+  },
+  "update": {
+    "message": "Pembaruan Tersedia",
+    "description": "Versi baru ({{version}}) tersedia. Apakah Anda ingin memperbarui sekarang?",
+    "button": "Perbarui",
+    "later": "Nanti"
+  },
+  "attachment_viewer": {
+    "image_load_error": "Gagal memuat gambar"
+  },
+  "example": {
+    "stack_example": "Contoh Stack"
+  },
+  "home": {
+    "title": "Home",
+    "select_period": "Pilih Periode",
+    "revenue_summary": "Ringkasan Pendapatan",
+    "total_revenue": "Total Pendapatan",
+    "revenue_mp": "Marketplace",
+    "revenue_soscom": "Soscom",
+    "order_summary": "Ringkasan Pesanan",
+    "total_order": "Total Pesanan",
+    "marketplace": "Marketplace",
+    "soscom": "Soscom",
+    "status_summary": "Ringkasan Status",
+    "status_success": "Sukses",
+    "status_on_delivery": "Dikirim",
+    "status_on_process": "Diproses",
+    "status_return": "Dikembalikan",
+    "status_cancel": "Dibatalkan",
+    "performance_summary": "Ringkasan Performa",
+    "delivery_success": "Pengiriman Berhasil",
+    "order_canceled": "Pesanan Dibatalkan",
+    "order_returned": "Pesanan Dikembalikan",
+    "problem_processed": "Masalah Diproses",
+    "cancel_request": "Permintaan Cancel",
+    "delivery_issue": "Masalah Pengiriman"
+  },
+  "orders": {
+    "title": "Pesanan",
+    "searchPlaceholder": "Cari pesanan...",
+    "total_items": "{{count}} produk",
+    "status": {
+      "unpaid": "Belum Bayar",
+      "draft": "Draft",
+      "unmapped": "Belum Termapping",
+      "to_process": "Siap Proses",
+      "out_of_stock": "Stock Tidak tersedia",
+      "pending": "Pending",
+      "in_process": "Proses",
+      "ready_to_print": "Siap di Print",
+      "pending_waybill": "Menunggu Resi",
+      "ready_for_pickup": "Menunggu Kurir",
+      "shipped_order": "Sedang Di kirim",
+      "completed_order": "Selesai",
+      "return_order": "Di Kembalikan",
+      "cancelled_order": "Dibatalkan",
+      "pending_logistic": "Pending Kurir",
+      "unmapping_product": "Product Belum Dimapping",
+      "unmapping_location": "Location Belum Dimapping",
+      "shipping_completed_order": "Pengiriman Selesai",
+      "in_return": "Sedang Dikembalikan",
+      "in_cancel": "Menunggu Persetujuan Cancel",
+      "unmapping_delivery": "Kurir Belum Dimapping",
+      "packed": "Packed",
+      "undefined_status": "Gagal Order Pickup",
+      "issue": "Issue",
+      "lost_and_broken_shipping_problem": "Lost & Broken",
+      "title": "Status"
+    },
+    "payment_method": "Metode Pembayaran",
+    "channel": "Kanal",
+    "filter": {
+      "order_code": "No. Order",
+      "tracking_number": "No. Resi",
+      "buyer_name": "Nama Pembeli"
+    },
+    "period": "Periode",
+    "created_at": "Dibuat {{date}}",
+    "track_order": "Lacak Pesanan",
+    "track_order_description": "Masukkan kode order atau kode tracking",
+    "order_not_found": "Order tidak ditemukan"
+  },
+  "products": {
+    "title": "Produk"
+  },
+  "storybook": {
+    "title": "Storybook"
+  },
+  "chat": {
+    "title": "Obrolan",
+    "status": {
+      "open": "Buka",
+      "pending": "Tertunda",
+      "snooze": "Tunda",
+      "resolve": "Selesaikan"
+    },
+    "assignment": {
+      "agent": "Agen",
+      "assignee": "Penanggung Jawab",
+      "priority": "Prioritas",
+      "priority_none": "Tidak Ada",
+      "priority_low": "Rendah",
+      "priority_medium": "Sedang",
+      "priority_high": "Tinggi",
+      "priority_urgent": "Mendesak",
+      "team": "Tim"
+    },
+    "labels": {
+      "title": "Label",
+      "add_label": "Tambah Label"
+    },
+    "participants": {
+      "title": "Peserta",
+      "add_participant": "Tambah Peserta"
+    },
+    "attributes": {
+      "title": "Atribut",
+      "conversation_id": "ID Percakapan",
+      "initiated_at": "Dimulai pada",
+      "browser": "Peramban",
+      "operating_system": "Sistem Operasi",
+      "ip_address": "Alamat IP"
+    },
+    "actions": {
+      "share_conversation": "Bagikan Percakapan"
+    },
+    "input": {
+      "placeholder": "Ketik pesan Anda...",
+      "placeholder_private": "Hanya agen yang dapat melihat pesan ini"
+    },
+    "login": {
+      "email_label": "Email",
+      "email_placeholder": "Masukkan email Anda",
+      "password_label": "Kata Sandi",
+      "password_placeholder": "Masukkan kata sandi Anda",
+      "submit_button": "Masuk"
+    },
+    "filters": {
+      "status_label": "Status",
+      "assignee_label": "Penerima",
+      "sort_by_label": "Urutkan berdasarkan",
+      "inbox_label": "Kotak Masuk",
+      "all": "Semua",
+      "me": "Saya",
+      "unassigned": "Belum Ditugaskan",
+      "latest": "Terbaru",
+      "sort_on_created_at": "Urutkan berdasarkan tanggal dibuat",
+      "sort_on_priority": "Urutkan berdasarkan prioritas"
+    }
+  },
+  "order_details": {
+    "title": "Detail Pesanan",
+    "customer": "Pelanggan",
+    "order_summary": "Ringkasan Pesanan",
+    "origin_warehouse": "Asal/Gudang",
+    "payment_method": "Metode Pembayaran",
+    "payment_type": "Tipe Pembayaran",
+    "courier": "Kurir",
+    "actual_weight": "Berat Aktual",
+    "actual_price": "Harga Aktual",
+    "delivery_attempt": "Percobaan Pengiriman",
+    "tracking_number": "Nomor Resi",
+    "products": "Produk",
+    "canceled": "Dibatalkan",
+    "sku": "SKU",
+    "fees": "Biaya",
+    "subtotal": "Subtotal",
+    "shipping_fee": "Biaya Pengiriman",
+    "other_fee": "Biaya Lainnya",
+    "total_discount": "Total Diskon",
+    "cod_fee": "Biaya COD",
+    "seller_discount": "Diskon Penjual",
+    "shipping_discount": "Diskon Pengiriman",
+    "packing_fee": "Biaya Packing",
+    "insurance_fee": "Biaya Asuransi",
+    "grand_total": "Total Akhir",
+    "shipping_address": "Alamat Pengiriman",
+    "package_information": "Informasi Paket",
+    "height_cm": "Tinggi (cm)",
+    "length_cm": "Panjang (cm)",
+    "width_cm": "Lebar (cm)",
+    "weight_g": "Berat (g)",
+    "chargeable_weight_g": "Berat Dikenakan Biaya (g)",
+    "activity_history": "Aktivitas Order"
+  },
+  "order_form": {
+    "title": "Buat Pesanan",
+    "steps": {
+      "recipient_info": "Penerima",
+      "item": "Produk & Paket",
+      "shipment": "Pengiriman & Biaya",
+      "summary": "Ringkasan",
+      "order_details": "Detail Pesanan",
+      "review": "Tinjau & Kirim"
+    },
+    "navigation": {
+      "next": "Selanjutnya",
+      "previous": "Sebelumnya",
+      "submit": "Kirim Pesanan"
+    },
+    "order_summary": "Ringkasan Pesanan",
+    "other_fee": "Biaya Lainnya",
+    "shipping_cost_covered_by_seller": "Biaya Pengiriman Ditanggung Penjual",
+    "use_insurance": "Gunakan Asuransi Pengiriman",
+    "order_discount": "Diskon Pesanan",
+    "packing_fee": "Biaya Packing",
+    "delivery_information": "Informasi Pengiriman",
+    "is_self_delivery": "Pengiriman sendiri",
+    "logistic": "Jasa Pengiriman",
+    "logistic_name": "Nama Logistik",
+    "provider_name": "Nama Provider",
+    "service_name": "Nama Layanan",
+    "logistic_carrier": "Pengangkut Logistik",
+    "tracking_number": "Nomor Pelacakan",
+    "select_logistic": "Pilih jasa pengiriman",
+    "enter_logistic_name": "Masukkan nama logistik",
+    "enter_provider_name": "Masukkan nama provider",
+    "enter_service_name": "Masukkan nama layanan",
+    "enter_carrier_name": "Masukkan pengangkut logistik",
+    "enter_tracking_number": "Masukkan nomor pelacakan",
+    "recipient_information": "Informasi Penerima",
+    "name": "Nama Penerima",
+    "phone": "No. HP Penerima",
+    "email": "Email Penerima",
+    "subdistrict": "Kelurahan/Desa Penerima",
+    "country": "Negara Penerima",
+    "province": "Provinsi Penerima",
+    "city": "Kota Penerima",
+    "district": "Kecamatan Penerima",
+    "postal_code": "Kode Pos Penerima",
+    "full_address": "Alamat Lengkap Penerima",
+    "recipient_remarks": "Catatan Penerima",
+    "enter_name": "Masukkan nama penerima",
+    "enter_phone": "Masukkan no. hp penerima",
+    "enter_email": "Masukkan email penerima",
+    "enter_full_address": "Masukkan alamat lengkap penerima",
+    "enter_recipient_name": "Masukkan nama penerima",
+    "enter_recipient_phone": "Masukkan no. hp penerima",
+    "enter_recipient_email": "Masukkan email penerima",
+    "select_subdistrict": "Pilih kelurahan/desa penerima",
+    "search_subdistrict": "Masukkan nama kelurahan/desa penerima",
+    "enter_recipient_address": "Masukkan alamat lengkap penerima",
+    "enter_recipient_remarks": "Masukkan catatan penerima",
+    "customer_information": "Informasi Pelanggan",
+    "is_same_as_customer": "Samakan dengan penerima",
+    "customer": {
+      "name": "Nama Pelanggan",
+      "phone": "No. HP Pelanggan",
+      "email": "Email Pelanggan",
+      "full_address": "Alamat Lengkap Pelanggan",
+      "total_orders": "Frekuansi Order: {{count}}"
+    },
+    "enter_customer_name": "Masukkan nama pelanggan",
+    "enter_customer_phone": "Masukkan no. hp pelanggan",
+    "enter_customer_email": "Masukkan email pelanggan",
+    "enter_customer_address": "Masukkan alamat lengkap pelanggan",
+    "order_information": "Informasi Pesanan",
+    "order_code": "No. Order",
+    "payment_type": "Metode Pembayaran",
+    "payment_via": "Cara Pembayaran",
+    "store": "Toko",
+    "warehouse": "Dikirim dari",
+    "checkout_time": "Tanggal Checkout",
+    "sales": "PIC Sales",
+    "remarks": "Catatan",
+    "enter_order_number": "Masukkan nomor order",
+    "select_payment_method": "Pilih metode pembayaran",
+    "select_payment_via": "Pilih cara pembayaran",
+    "select_store": "Pilih toko",
+    "select_warehouse": "Pilih lokasi pengiriman",
+    "select_checkout_date": "Pilih tanggal checkout",
+    "enter_sales_pic": "Masukkan PIC sales",
+    "enter_remarks": "Masukkan catatan",
+    "item_order": "Pesanan Produk",
+    "add_item": "Pilih Item",
+    "total_weight": "Total Berat",
+    "total_price": "Total Harga",
+    "dropshipping_information": "Informasi Dropshipper",
+    "is_dropship": "Pesanan Dropship",
+    "dropshipper_name": "Nama Dropshipper",
+    "dropshipper_phone": "No. HP Dropshipper",
+    "dropshipper_email": "Email Dropshipper",
+    "dropshipper_full_address": "Alamat Lengkap Dropshipper",
+    "enter_dropshipper_name": "Masukkan nama dropshipper",
+    "enter_dropshipper_phone": "Masukkan no. hp dropshipper",
+    "enter_dropshipper_email": "Masukkan email dropshipper",
+    "enter_dropshipper_address": "Masukkan alamat lengkap dropshipper",
+    "package_information": "Informasi Paket",
+    "package": {
+      "weight": "Berat (gram)",
+      "length": "Panjang (cm)",
+      "width": "Lebar (cm)",
+      "height": "Tinggi (cm)"
+    },
+    "weight_auto_calculated": "Berat otomatis dihitung dari total produk. Anda dapat mengubahnya secara manual",
+    "out_of_stock": "Stok habis",
+    "delete_product_confirmation": "Apakah Anda yakin ingin menghapus produk ini?",
+    "delete_products_confirmation": "Apakah Anda yakin ingin menghapus produk berikut:",
+    "shipping_discount": "Diskon Pengiriman",
+    "subtotal": "Subtotal",
+    "item": "item",
+    "shipping_fee": "Biaya Pengiriman",
+    "insurance_fee": "Biaya Asuransi",
+    "cod_fee": "Biaya COD",
+    "packing_fee_label": "Biaya Packing",
+    "discount": "Diskon",
+    "total": "Total",
+    "confirmation": {
+      "title": "Konfirmasi Pesanan",
+      "description": "Apakah Anda yakin ingin mengirim pesanan ini?",
+      "submit": "Konfirmasi",
+      "cancel": "Batal"
+    },
+    "message": {
+      "success": "Order berhasil dibuat",
+      "form_error": "Perbaiki kesalahan pada form dan coba lagi"
+    },
+    "fees": "Biaya",
+    "discounts": "Diskon",
+    "helpers": {
+      "warehouse_change": "Mengubah gudang akan mengubah produk yang tersedia",
+      "recipient_address_change": "Mengubah alamat penerima akan mengubah pengiriman"
+    }
+  },
+  "validation": {
+    "required": "Input wajib diisi",
+    "invalid": "Input tidak valid",
+    "minimum": "Input minimal {{minimum}} karakter",
+    "startsWith": "Input harus diawali dengan {{startsWith}}",
+    "email": "Alamat email tidak valid"
+  }
+}

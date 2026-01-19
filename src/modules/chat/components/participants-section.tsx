@@ -1,0 +1,134 @@
+import React, { JSX, useRef } from 'react';
+import { FlatList, View } from 'react-native';
+
+import { useMutation } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
+
+import {
+  Container,
+  Divider,
+  MenuItem,
+  Option,
+  OptionBottomSheet,
+  OptionBottomSheetRef,
+  Text,
+} from '@/components';
+import { optimisticUpdateQuery } from '@/lib/react-query';
+import { useAuthStore } from '@/store/auth-store';
+import { conversationEndpoints } from '../constants/endpoints';
+import { conversationKeys } from '../constants/keys';
+import { Agent } from '../services/agent/types';
+import { updateParticipants } from '../services/conversation';
+import { useListParticipantsQuery } from '../services/conversation/repository';
+import {
+  Conversation,
+  ConversationParticipantsResponse,
+  UpdateParticipantsPayload,
+} from '../services/conversation/types';
+
+type ParticipantsSectionProps = {
+  conversation?: Conversation;
+  agents?: Option<Agent>[];
+};
+
+export function ParticipantsSection({
+  conversation,
+  agents,
+}: ParticipantsSectionProps): JSX.Element {
+  const participantsBottomSheetRef = useRef<OptionBottomSheetRef>(null);
+  const { chatUser } = useAuthStore();
+  const { t } = useTranslation();
+
+  const { data: participants, refetch: refetchParticipants } =
+    useListParticipantsQuery(undefined, conversation?.id?.toString() ?? '');
+
+  const listParticipantsQueryKey = [
+    conversationEndpoints.participants(
+      chatUser?.account_id ?? 0,
+      conversation?.id?.toString() ?? '',
+    ),
+  ];
+
+  const updateParticipantsMutation = useMutation({
+    mutationKey: conversationKeys.participants(
+      chatUser?.account_id ?? 0,
+      conversation?.id?.toString() ?? '',
+    ),
+    mutationFn: (payload: UpdateParticipantsPayload) =>
+      updateParticipants(
+        chatUser?.account_id ?? 0,
+        conversation?.id?.toString() ?? '',
+        payload,
+      ),
+    onMutate: (payload) => {
+      const previousData =
+        optimisticUpdateQuery<ConversationParticipantsResponse>(
+          listParticipantsQueryKey,
+          (old) => {
+            if (!old) return old;
+
+            return (payload.user_ids ?? []).map((userId) => {
+              const participant = agents?.find(
+                (agent) => agent.value === String(userId),
+              );
+
+              return participant?.data as Agent;
+            });
+          },
+        );
+
+      return { previousData };
+    },
+    onSuccess: () => refetchParticipants(),
+  });
+
+  function onChangeParticipants(participants: Option<Agent>[]): void {
+    updateParticipantsMutation.mutate({
+      user_ids: participants.map((participant) => Number(participant.value)),
+    });
+  }
+
+  return (
+    <>
+      <View className="gap-sm">
+        <Text variant="labelM">{t('chat.participants.title')}</Text>
+        <Container.Card className={participants?.length ? 'gap-sm' : 'gap-0'}>
+          <FlatList
+            data={participants}
+            scrollEnabled={false}
+            renderItem={({ item }) => (
+              <MenuItem.Action
+                key={item.id}
+                icon="user"
+                label={item.name}
+                value={item.availability_status}
+                rightElement={null}
+              />
+            )}
+            ItemSeparatorComponent={() => <Divider className="-mx-md" />}
+          />
+          {participants?.length ? <Divider className="-mx-md" /> : null}
+          <MenuItem.Action
+            icon="plus"
+            label={t('chat.participants.add_participant')}
+            rightElement={null}
+            onPress={() => participantsBottomSheetRef.current?.present()}
+          />
+        </Container.Card>
+      </View>
+
+      <OptionBottomSheet
+        ref={participantsBottomSheetRef}
+        options={agents ?? []}
+        title={t('chat.participants.title')}
+        multiselect
+        onSelect={(opts) => onChangeParticipants(opts)}
+        selectedValues={participants?.map((participant) => ({
+          label: participant.name,
+          value: String(participant.id),
+          data: participant,
+        }))}
+      />
+    </>
+  );
+}

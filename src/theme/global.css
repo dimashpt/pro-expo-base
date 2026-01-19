@@ -1,0 +1,144 @@
+@import 'tailwindcss';
+@import 'uniwind';
+
+@import './radius.css';
+@import './spacing.css';
+@import './typography.css';
+
+/**
+ * NOTE: The @source directive is required for uniwind to work.
+ * Because the globals.css is not placed in the root directory of the project,
+ * so we need to use the @source directive to tell uniwind where to find the root directory.
+ *
+ * See more: https://github.com/Unistyles-OSS/uniwind/issues/133#issuecomment-3485215951
+ */
+@source '../';
+
+@layer theme {
+  :root {
+    /* Primitive colors */
+    --color-white: #fff;
+    --color-black: #000;
+    --color-transparent: #00000000;
+
+    /* Light theme semantic tokens */
+    @variant light {
+      --color-background: #f2f2f2;
+      --color-foreground: #1a1a1a;
+      --color-foreground-inverted: #f2f2f2;
+      --color-surface: #ffffff;
+
+      --color-accent: #203864;
+      --color-accent-soft: color-mix(
+        in oklab,
+        var(--color-accent) 15%,
+        transparent
+      );
+      --color-accent-foreground: #f5f9fb;
+
+      --color-info: #8bceff;
+      --color-info-soft: color-mix(
+        in oklab,
+        var(--color-info) 15%,
+        transparent
+      );
+      --color-info-foreground: #003161;
+
+      --color-success: #08c253;
+      --color-success-soft: color-mix(
+        in oklab,
+        var(--color-success) 15%,
+        transparent
+      );
+      --color-success-foreground: #002d18;
+
+      --color-warning: #fed487;
+      --color-warning-soft: color-mix(
+        in oklab,
+        var(--color-warning) 15%,
+        transparent
+      );
+      --color-warning-foreground: #402900;
+
+      --color-danger: #ea2f6a;
+      --color-danger-soft: color-mix(
+        in oklab,
+        var(--color-danger) 15%,
+        transparent
+      );
+      --color-danger-foreground: #fcf7f7;
+
+      --color-field-background: #f7f7f7;
+      --color-field-foreground: var(--color-foreground);
+      --color-field-placeholder: #797979;
+      --color-field-border: #eeeeee;
+      --color-field-disabled: #dedede;
+
+      --color-muted: #dedede;
+      --color-muted-foreground: #797979;
+      --color-border: #efefef;
+      --color-focus: var(--color-accent);
+    }
+
+    /* Dark theme semantic tokens */
+    @variant dark {
+      --color-background: #121212;
+      --color-foreground: #e8e8e8;
+      --color-foreground-inverted: #121212;
+      --color-surface: #1c1c1c;
+
+      --color-accent: #f0f0f0;
+      --color-accent-soft: color-mix(
+        in oklab,
+        var(--color-accent) 12%,
+        transparent
+      );
+      --color-accent-foreground: #121212;
+
+      --color-info: #6bb8ff;
+      --color-info-soft: color-mix(
+        in oklab,
+        var(--color-info) 12%,
+        transparent
+      );
+      --color-info-foreground: #003161;
+
+      --color-success: #00b14a;
+      --color-success-soft: color-mix(
+        in oklab,
+        var(--color-success) 12%,
+        transparent
+      );
+      --color-success-foreground: #002d18;
+
+      --color-warning: #f6c270;
+      --color-warning-soft: color-mix(
+        in oklab,
+        var(--color-warning) 12%,
+        transparent
+      );
+      --color-warning-foreground: #402900;
+
+      --color-danger: #ff4b84;
+      --color-danger-soft: color-mix(
+        in oklab,
+        var(--color-danger) 12%,
+        transparent
+      );
+      --color-danger-foreground: #fcf7f7;
+
+      /* Form Fields */
+      --color-field-background: #1a1a1a;
+      --color-field-foreground: var(--color-foreground);
+      --color-field-placeholder: #9b9b9b;
+      --color-field-border: #2a2a2a;
+      --color-field-disabled: #2a2a2a;
+
+      /* Muted & Borders */
+      --color-muted: #2c2c2c;
+      --color-muted-foreground: #b3b3b3;
+      --color-border: #2c2c2c;
+      --color-focus: var(--color-accent);
+    }
+  }
+}
