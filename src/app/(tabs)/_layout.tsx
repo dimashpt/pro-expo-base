@@ -1,53 +1,36 @@
 import React, { JSX } from 'react';
 
-import { Redirect, Tabs } from 'expo-router';
-import { useTranslation } from 'react-i18next';
-
-import { TabBar } from '@/components';
-import { useAppStore, useAuthStore } from '@/store';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import {
+  Badge,
+  Icon,
+  Label,
+  NativeTabs,
+  VectorIcon,
+} from 'expo-router/unstable-native-tabs';
+import { useCSSVariable } from 'uniwind';
 
 export default function TabLayout(): JSX.Element {
-  const { showBetaFeatures } = useAppStore();
-  const { status } = useAuthStore();
-  const { t } = useTranslation();
+  const [accentColor, dangerColor] = useCSSVariable([
+    '--accent',
+    '--danger',
+  ]) as string[];
 
-  const hiddenTabs = showBetaFeatures ? [] : [];
-
-  if (status !== 'loggedIn') {
-    return <Redirect href="/login" />;
-  }
-
-  // Android/Fallback - Custom TabBar with current design
   return (
-    <Tabs
-      initialRouteName="home"
-      tabBar={(props) => <TabBar {...props} hiddenRoutes={hiddenTabs} />}
-      screenOptions={{
-        headerShown: false,
-        // Animation causes freezing sometimes, no github issue yet
-        animation: 'fade',
-        transitionSpec: {
-          animation: 'timing',
-          config: {
-            duration: 250,
-          },
-        },
-      }}
+    <NativeTabs
+      minimizeBehavior="onScrollDown"
+      tintColor={accentColor}
+      badgeBackgroundColor={dangerColor}
     >
-      <Tabs.Screen
-        name="home"
-        options={{
-          title: t('tab.home'),
-          tabBarIcon: () => 'home',
-        }}
-      />
-      <Tabs.Screen
-        name="profile"
-        options={{
-          title: t('tab.profile'),
-          tabBarIcon: () => 'user',
-        }}
-      />
-    </Tabs>
+      <NativeTabs.Trigger name="home">
+        <Icon src={<VectorIcon family={Ionicons} name="home" />} />
+        <Label>Home</Label>
+        <Badge>3</Badge>
+      </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="profile">
+        <Label>Settings</Label>
+        <Icon src={<VectorIcon family={Ionicons} name="settings" />} />
+      </NativeTabs.Trigger>
+    </NativeTabs>
   );
 }
