@@ -38,14 +38,15 @@ const textVariants = tv({
 
 type AppTextProps = RNTextProps & {
   variant?: keyof (typeof textVariants)['variants']['variant'];
+  color?: keyof (typeof textVariants)['variants']['color'];
 };
 
 export const AppText = React.forwardRef<RNText, AppTextProps>(
-  ({ className, variant, ...restProps }, ref) => {
+  ({ className, variant, color, ...restProps }, ref) => {
     return (
       <RNText
         ref={ref}
-        className={cn(textVariants({ variant }), className)}
+        className={cn(textVariants({ variant, color }), className)}
         {...restProps}
       />
     );

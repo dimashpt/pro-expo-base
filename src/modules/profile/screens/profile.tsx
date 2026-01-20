@@ -13,15 +13,48 @@ export default function ProfileScreen(): JSX.Element {
     setPushNotificationsEnabled,
     devtoolsEnabled,
     setDevtoolsEnabled,
+    theme,
+    setTheme,
+    language,
+    setLanguage,
   } = useAppStore();
   const menu: MenuListData = [
     {
       title: 'Theme',
       action: 'select',
+      value: theme,
+      onSelect: (option) =>
+        setTheme(option!.value as 'light' | 'dark' | 'system'),
+      options: [
+        {
+          label: 'Light',
+          value: 'light',
+        },
+        {
+          label: 'Dark',
+          value: 'dark',
+        },
+        {
+          label: 'System',
+          value: 'system',
+        },
+      ],
     },
     {
       title: 'Language',
       action: 'select',
+      value: language,
+      onSelect: (option) => setLanguage(option!.value),
+      options: [
+        {
+          label: 'English',
+          value: 'en',
+        },
+        {
+          label: 'Indonesian',
+          value: 'id',
+        },
+      ],
     },
     {
       title: 'Notifications',
@@ -40,11 +73,12 @@ export default function ProfileScreen(): JSX.Element {
     {
       title: 'Clear Cache',
       action: 'press',
+      onPress: () => {},
     },
   ];
 
   return (
-    <ScreenScrollView contentContainerClassName="gap-lg">
+    <ScreenScrollView contentContainerClassName="gap-lg" className="py-lg">
       <AppText variant="h1">Settings</AppText>
       <Accordion isCollapsible={false} variant="surface">
         <MenuList menu={menu} />
