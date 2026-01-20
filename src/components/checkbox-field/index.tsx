@@ -6,7 +6,7 @@ interface CheckboxFieldProps {
   isSelected: boolean;
   onSelectedChange: (value: boolean) => void;
   title: string;
-  description: string;
+  description?: string;
 }
 
 export const CheckboxField: React.FC<CheckboxFieldProps> = ({
@@ -19,17 +19,19 @@ export const CheckboxField: React.FC<CheckboxFieldProps> = ({
     <FormField
       isSelected={isSelected}
       onSelectedChange={onSelectedChange}
-      className="items-start"
+      className="items-center"
     >
       <FormField.Indicator>
         <Checkbox className="mt-0.5" />
       </FormField.Indicator>
-      <View className="flex-1">
-        <FormField.Label className="text-lg">{title}</FormField.Label>
-        <FormField.Description className="text-base">
-          {description}
-        </FormField.Description>
-      </View>
+      {title || description ? (
+        <View className="flex-1">
+          {title && <FormField.Label>{title}</FormField.Label>}
+          {description && (
+            <FormField.Description>{description}</FormField.Description>
+          )}
+        </View>
+      ) : null}
     </FormField>
   );
 };

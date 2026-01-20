@@ -6,7 +6,7 @@ interface SwitchFieldProps {
   isSelected: boolean;
   onSelectedChange: (value: boolean) => void;
   title: string;
-  description: string;
+  description?: string;
 }
 
 export const SwitchField: React.FC<SwitchFieldProps> = ({

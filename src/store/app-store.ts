@@ -11,7 +11,7 @@ type AppState = {
   language: string;
   theme: ColorScheme;
   showBetaFeatures: boolean;
-  showDevTools: boolean;
+  devtoolsEnabled: boolean;
   pushNotificationsEnabled: boolean;
   hasCompletedOnboarding: boolean;
 };
@@ -20,7 +20,7 @@ type AppActions = {
   setLanguage: (language: string) => Promise<void>;
   initializeLanguage: () => Promise<void>;
   setTheme: (payload: ColorScheme) => void;
-  toggleDevTools: () => void;
+  setDevtoolsEnabled: () => void;
   toggleBetaFeatures: () => void;
   setPushNotificationsEnabled: (enabled: boolean) => void;
   setHasCompletedOnboarding: (completed: boolean) => void;
@@ -32,7 +32,7 @@ const initialState: AppState = {
   language: 'en',
   theme: 'system',
   showBetaFeatures: false,
-  showDevTools: false,
+  devtoolsEnabled: false,
   pushNotificationsEnabled: true,
   hasCompletedOnboarding: false,
 };
@@ -55,8 +55,8 @@ export const useAppStore = create<AppStore>()(
       setTheme: (payload: ColorScheme): void => {
         set({ theme: payload });
       },
-      toggleDevTools: (): void => {
-        set({ showDevTools: !get().showDevTools });
+      setDevtoolsEnabled: (): void => {
+        set({ devtoolsEnabled: !get().devtoolsEnabled });
       },
       toggleBetaFeatures: (): void => {
         set({ showBetaFeatures: !get().showBetaFeatures });

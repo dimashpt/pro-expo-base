@@ -1,53 +1,54 @@
-import React, { JSX, useState } from 'react';
-import { Text } from 'react-native';
+import React, { JSX } from 'react';
 
-import Entypo from '@expo/vector-icons/Entypo';
-import { Accordion, PressableFeedback } from 'heroui-native';
+import { Accordion } from 'heroui-native';
 
-import { CheckboxField, SwitchField } from '@/components';
+import { AppText } from '@/components';
+import { MenuList, MenuListData } from '@/components/menu-list';
 import { ScreenScrollView } from '@/components/screen-scrollview';
-
-const menu = [
-  { title: 'Theme' },
-  { title: 'Language' },
-  { title: 'Notifications' },
-  { title: 'Developer Tools' },
-  { title: 'Clear Cache' },
-];
+import { useAppStore } from '@/store';
 
 export default function ProfileScreen(): JSX.Element {
-  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
+  const {
+    pushNotificationsEnabled,
+    setPushNotificationsEnabled,
+    devtoolsEnabled,
+    setDevtoolsEnabled,
+  } = useAppStore();
+  const menu: MenuListData = [
+    {
+      title: 'Theme',
+      action: 'select',
+    },
+    {
+      title: 'Language',
+      action: 'select',
+    },
+    {
+      title: 'Notifications',
+      description: 'Enable notifications for updates and offers',
+      action: 'switch',
+      value: pushNotificationsEnabled,
+      onChange: setPushNotificationsEnabled,
+    },
+    {
+      title: 'Developer Tools',
+      action: 'switch',
+      description: 'Enable developer options and tools',
+      value: devtoolsEnabled,
+      onChange: setDevtoolsEnabled,
+    },
+    {
+      title: 'Clear Cache',
+      action: 'press',
+    },
+  ];
 
   return (
-    <ScreenScrollView>
+    <ScreenScrollView contentContainerClassName="gap-lg">
+      <AppText variant="h1">Settings</AppText>
       <Accordion isCollapsible={false} variant="surface">
-        {menu.map((item) => (
-          <Accordion.Item key={item.title} value={item.title}>
-            <Accordion.Trigger onPress={() => {}} asChild>
-              <PressableFeedback>
-                <Text className="text-foreground ml-1 text-base">
-                  {item.title}
-                </Text>
-                <Accordion.Indicator>
-                  <Entypo name="chevron-thin-right" size={12} color="black" />
-                </Accordion.Indicator>
-              </PressableFeedback>
-            </Accordion.Trigger>
-          </Accordion.Item>
-        ))}
+        <MenuList menu={menu} />
       </Accordion>
-      <CheckboxField
-        isSelected={notificationsEnabled}
-        onSelectedChange={setNotificationsEnabled}
-        title="Notifications"
-        description="Enable notifications for updates and offers"
-      />
-      <SwitchField
-        isSelected={notificationsEnabled}
-        onSelectedChange={setNotificationsEnabled}
-        title="Notifications"
-        description="Enable notifications for updates and offers"
-      />
     </ScreenScrollView>
   );
 }

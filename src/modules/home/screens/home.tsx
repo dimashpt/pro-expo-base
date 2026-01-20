@@ -2,7 +2,8 @@ import React, { JSX } from 'react';
 import { BackHandler, View } from 'react-native';
 
 import { useFocusEffect } from 'expo-router';
-import { Button } from 'heroui-native';
+
+import { AppText } from '@/components';
 
 export default function HomeScreen(): JSX.Element {
   /**
@@ -30,12 +31,17 @@ export default function HomeScreen(): JSX.Element {
 
   return (
     <View className="bg-background pt-safe flex-1 items-center justify-center">
-      <Button variant="primary">Primary</Button>
-      <Button variant="secondary">Secondary</Button>
-      <Button variant="tertiary">Tertiary</Button>
-      <Button variant="ghost">Ghost</Button>
-      <Button variant="danger">Danger</Button>
-      <Button variant="danger-soft">Danger Soft</Button>
+      <AppText variant="h1">h1</AppText>
+      <AppText variant="h2">h2</AppText>
+      <AppText variant="h3">h3</AppText>
+      <AppText variant="h4">h4</AppText>
+      <AppText variant="h5">h5</AppText>
+      <AppText variant="h6">h6</AppText>
+      <AppText variant="subtitle">subtitle</AppText>
+      <AppText variant="label">label</AppText>
+      <AppText variant="body">body</AppText>
+      <AppText variant="small">small</AppText>
+      <AppText variant="tiny">tiny</AppText>
     </View>
   );
 }
