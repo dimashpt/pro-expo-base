@@ -28,8 +28,8 @@ export default function TabLayout(): JSX.Element {
         <Badge>3</Badge>
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="profile">
-        <Label>Settings</Label>
-        <Icon src={<VectorIcon family={Ionicons} name="settings" />} />
+        <Label>Profile</Label>
+        <Icon src={<VectorIcon family={Ionicons} name="person-circle" />} />
       </NativeTabs.Trigger>
     </NativeTabs>
   );
