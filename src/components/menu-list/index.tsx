@@ -13,27 +13,32 @@ export type Option = {
   value: string;
 };
 
-export type MenuListData = Array<MenuListItem>;
 type BaseMenuListDataItem = {
   title: string;
   description?: string;
 };
-type MenuListItem =
-  | (BaseMenuListDataItem & {
-      action: 'select';
-      onSelect: (value?: Option) => void;
-      options: Array<Option>;
-      value?: string;
-    })
-  | (BaseMenuListDataItem & {
-      action: 'press';
-      onPress: () => void;
-    })
-  | (BaseMenuListDataItem & {
-      action: 'switch';
-      value: boolean;
-      onChange: (value: boolean) => void;
-    });
+
+type SelectMenuItem = BaseMenuListDataItem & {
+  action: 'select';
+  onSelect: (value?: Option) => void;
+  options: Array<Option>;
+  value?: string;
+};
+
+type PressMenuItem = BaseMenuListDataItem & {
+  action: 'press';
+  onPress: () => void;
+};
+
+type SwitchMenuItem = BaseMenuListDataItem & {
+  action: 'switch';
+  value: boolean;
+  onChange: (value: boolean) => void;
+};
+
+export type MenuListItem = SelectMenuItem | PressMenuItem | SwitchMenuItem;
+
+export type MenuListData = Array<MenuListItem>;
 
 type MenuListProps = {
   menu: MenuListData;
