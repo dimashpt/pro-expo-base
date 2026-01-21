@@ -7,6 +7,7 @@ interface SwitchFieldProps {
   onSelectedChange: (value: boolean) => void;
   title: string;
   description?: string;
+  className?: string;
 }
 
 export const SwitchField: React.FC<SwitchFieldProps> = ({
@@ -14,8 +15,13 @@ export const SwitchField: React.FC<SwitchFieldProps> = ({
   onSelectedChange,
   title,
   description,
+  className,
 }) => (
-  <FormField isSelected={isSelected} onSelectedChange={onSelectedChange}>
+  <FormField
+    isSelected={isSelected}
+    onSelectedChange={onSelectedChange}
+    className={className}
+  >
     {title || description ? (
       <View className="flex-1">
         {title && <FormField.Label>{title}</FormField.Label>}

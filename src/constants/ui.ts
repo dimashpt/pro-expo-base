@@ -1,1 +1,14 @@
-export const TAB_BAR_HEIGHT = 100;
+export const THEMES = [
+  {
+    label: 'Light',
+    value: 'light',
+  },
+  {
+    label: 'Dark',
+    value: 'dark',
+  },
+  {
+    label: 'System',
+    value: 'system',
+  },
+];

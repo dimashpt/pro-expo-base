@@ -5,6 +5,8 @@ import { Accordion } from 'heroui-native';
 import { AppText } from '@/components';
 import { MenuList, MenuListData } from '@/components/menu-list';
 import { ScreenScrollView } from '@/components/screen-scrollview';
+import { LANGUAGES } from '@/constants/languages';
+import { THEMES } from '@/constants/ui';
 import { useAppStore } from '@/store';
 
 export default function ProfileScreen(): JSX.Element {
@@ -25,36 +27,14 @@ export default function ProfileScreen(): JSX.Element {
       value: theme,
       onSelect: (option) =>
         setTheme(option!.value as 'light' | 'dark' | 'system'),
-      options: [
-        {
-          label: 'Light',
-          value: 'light',
-        },
-        {
-          label: 'Dark',
-          value: 'dark',
-        },
-        {
-          label: 'System',
-          value: 'system',
-        },
-      ],
+      options: THEMES,
     },
     {
       title: 'Language',
       action: 'select',
       value: language,
       onSelect: (option) => setLanguage(option!.value),
-      options: [
-        {
-          label: 'English',
-          value: 'en',
-        },
-        {
-          label: 'Indonesian',
-          value: 'id',
-        },
-      ],
+      options: LANGUAGES,
     },
     {
       title: 'Notifications',

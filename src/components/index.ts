@@ -6,4 +6,3 @@ export * from './icon';
 export * from './menu-list';
 export * from './switch-field';
 export * from './mapped';
-export * from './tab-bar';
