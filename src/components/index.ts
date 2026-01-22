@@ -1,5 +1,6 @@
 export * from './animated-blur-view';
 export * from './app-text';
+export * from './bottom-sheet';
 export * from './checkbox-field';
 export * from './clickable';
 export * from './devtools';

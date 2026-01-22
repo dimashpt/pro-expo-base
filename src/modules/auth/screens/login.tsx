@@ -1,23 +1,14 @@
-import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, { useRef } from 'react';
+import { View } from 'react-native';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
-import {
-  BottomSheet,
-  Button,
-  PressableFeedback,
-  Surface,
-  useBottomSheetAnimation,
-  useToast,
-} from 'heroui-native';
+import { Button, PressableFeedback, useToast } from 'heroui-native';
 import { Resolver, useForm } from 'react-hook-form';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
-import { interpolate, useDerivedValue } from 'react-native-reanimated';
-import { useUniwind } from 'uniwind';
 import z from 'zod';
 
-import { AnimatedBlurView, AppText, InputField, IonIcon } from '@/components';
+import { AppText, BottomSheet, InputField, IonIcon } from '@/components';
 import { delay } from '@/utils/async';
 import { emailSchema, stringSchema } from '@/utils/validation';
 
@@ -33,8 +24,8 @@ type LoginFormSchema = z.infer<typeof loginFormSchema>;
 type ForgotPasswordFormSchema = z.infer<typeof forgotPasswordFormSchema>;
 
 export default function LoginScreen(): React.JSX.Element {
+  const forgotPasswordBottomSheetRef = useRef<BottomSheet>(null);
   const { toast } = useToast();
-  const [showForgotPasswordSheet, setShowForgotPasswordSheet] = useState(false);
 
   const { control: loginControl, handleSubmit: loginHandleSubmit } =
     useForm<LoginFormSchema>({
@@ -60,10 +51,10 @@ export default function LoginScreen(): React.JSX.Element {
     mode: 'onChange',
   });
 
-  const resetPasswordMutation = useMutation({
+  const forgotPasswordMutation = useMutation({
     mutationFn: (_data: ForgotPasswordFormSchema) => delay(3000),
     onSuccess: (_, { email }) => {
-      toggleForgotPasswordSheet(false);
+      forgotPasswordBottomSheetRef.current?.close();
 
       toast.show({
         variant: 'success',
@@ -75,18 +66,12 @@ export default function LoginScreen(): React.JSX.Element {
     },
   });
 
-  function toggleForgotPasswordSheet(value: boolean): void {
-    setShowForgotPasswordSheet(value);
-
-    if (!value) forgotPasswordReset();
-  }
-
   function onSubmitLogin(_: LoginFormSchema): void {
     // Do a login mutation
   }
 
   function onSubmitForgotPassword(data: ForgotPasswordFormSchema): void {
-    resetPasswordMutation.mutate(data);
+    forgotPasswordMutation.mutate(data);
   }
 
   return (
@@ -129,7 +114,9 @@ export default function LoginScreen(): React.JSX.Element {
         }
         returnKeyType="done"
       />
-      <PressableFeedback onPress={() => setShowForgotPasswordSheet(true)}>
+      <PressableFeedback
+        onPress={() => forgotPasswordBottomSheetRef.current?.open()}
+      >
         <AppText
           variant="small"
           color="accent"
@@ -139,83 +126,36 @@ export default function LoginScreen(): React.JSX.Element {
         </AppText>
       </PressableFeedback>
       <Button onPress={loginHandleSubmit(onSubmitLogin)}>Login</Button>
-      <BottomSheet
-        isOpen={showForgotPasswordSheet}
-        onOpenChange={toggleForgotPasswordSheet}
-        isDismissKeyboardOnClose
+      <BottomSheet.Confirm
+        ref={forgotPasswordBottomSheetRef}
+        title="Forgot Password?"
+        description="Enter your email address and we'll send you a link to reset your password."
+        variant="warning"
+        onClose={forgotPasswordReset}
+        submitButtonLabel="Send"
+        submitButtonProps={{
+          isDisabled: forgotPasswordMutation.isPending,
+        }}
+        onPressCancel={() => {}}
+        onPressSubmit={forgotPasswordHandleSubmit(onSubmitForgotPassword)}
       >
-        <BottomSheet.Portal>
-          <BottomSheetBlurOverlay />
-          <BottomSheet.Content contentContainerClassName="pb-safe">
-            <Surface className="bg-accent/20 centered mb-md size-16 rounded-full">
-              <IonIcon
-                name="help-circle-outline"
-                size={32}
-                className="text-accent"
-              />
-            </Surface>
-            <View className="gap-sm">
-              <AppText variant="h5">Forgot Password?</AppText>
-              <AppText variant="body" color="muted">
-                Enter your email address and we'll send you a link to reset your
-                password.
-              </AppText>
-              <InputField
-                control={forgotPasswordControl}
-                name="email"
-                placeholder="johndoe@example.com"
-                keyboardType="email-address"
-                autoCapitalize="none"
-                returnKeyType="next"
-                variant="secondary"
-                fromBottomSheet
-                disabled={resetPasswordMutation.isPending}
-                prefix={
-                  <IonIcon
-                    name="mail-outline"
-                    size={16}
-                    className="text-muted"
-                  />
-                }
-              />
-              <View className="gap-sm mt-md flex-row">
-                <Button
-                  variant="tertiary"
-                  className="flex-1"
-                  onPress={() => setShowForgotPasswordSheet(false)}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  isDisabled={resetPasswordMutation.isPending}
-                  className="flex-1"
-                  onPress={forgotPasswordHandleSubmit(onSubmitForgotPassword)}
-                >
-                  Send
-                </Button>
-              </View>
-            </View>
-          </BottomSheet.Content>
-        </BottomSheet.Portal>
-      </BottomSheet>
+        <View className="gap-sm">
+          <InputField
+            control={forgotPasswordControl}
+            name="email"
+            placeholder="johndoe@example.com"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            returnKeyType="next"
+            variant="secondary"
+            fromBottomSheet
+            disabled={forgotPasswordMutation.isPending}
+            prefix={
+              <IonIcon name="mail-outline" size={16} className="text-muted" />
+            }
+          />
+        </View>
+      </BottomSheet.Confirm>
     </KeyboardAwareScrollView>
-  );
-}
-
-export function BottomSheetBlurOverlay(): React.JSX.Element {
-  const { theme } = useUniwind();
-  const { progress } = useBottomSheetAnimation();
-  const blurIntensity = useDerivedValue(() => {
-    return interpolate(progress.get(), [0, 1, 2], [0, 40, 0]);
-  });
-
-  return (
-    <BottomSheet.Close style={StyleSheet.absoluteFill}>
-      <AnimatedBlurView
-        blurIntensity={blurIntensity}
-        tint={theme === 'dark' ? 'dark' : 'systemUltraThinMaterialDark'}
-        style={StyleSheet.absoluteFill}
-      />
-    </BottomSheet.Close>
   );
 }
