@@ -8,6 +8,7 @@ import {
   BottomSheet as HNBottomSheet,
   Surface,
 } from 'heroui-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AppText } from '../app-text';
 import { IonIcon } from '../mapped';
@@ -23,6 +24,7 @@ export type BottomSheetProps = {
   children: React.ReactNode;
   onClose?: () => void;
   onOpen?: () => void;
+  detached?: boolean;
 };
 
 export type BottomSheetConfirmationProps = BottomSheetProps & {
@@ -43,8 +45,10 @@ export function BottomSheet({
   children,
   onOpen,
   onClose,
+  detached,
 }: BottomSheetProps): React.JSX.Element {
   const [show, setShow] = useState(false);
+  const insets = useSafeAreaInsets();
 
   useImperativeHandle(
     ref,
@@ -70,7 +74,21 @@ export function BottomSheet({
     >
       <HNBottomSheet.Portal>
         <BottomSheetBlurOverlay />
-        <HNBottomSheet.Content contentContainerClassName="pb-safe gap-md">
+        <HNBottomSheet.Content
+          contentContainerClassName={cn(
+            'gap-md',
+            detached ? 'pb-xl' : 'pb-safe',
+          )}
+          {...(detached
+            ? {
+                detached: true,
+                bottomInset: insets.bottom,
+                className: 'ml-xl mr-xl',
+                backgroundClassName: 'rounded-[32px]',
+              }
+            : {})}
+        >
+          <HNBottomSheet.Close className="bg-background dark:bg-surface p-sm absolute top-2 right-6 rounded-full" />
           {children}
         </HNBottomSheet.Content>
       </HNBottomSheet.Portal>
