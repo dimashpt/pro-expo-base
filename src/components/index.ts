@@ -3,6 +3,7 @@ export * from './checkbox-field';
 export * from './clickable';
 export * from './devtools';
 export * from './icon';
+export * from './input-field';
 export * from './menu-list';
 export * from './switch-field';
 export * from './mapped';

@@ -132,7 +132,9 @@ function App(): React.ReactNode {
           style={{ backgroundColor }}
         >
           <KeyboardProvider>
-            <HeroUINativeProvider>
+            <HeroUINativeProvider
+              config={{ devInfo: { stylingPrinciples: false } }}
+            >
               <BottomSheetModalProvider>
                 <StatusBar
                   style={appColorScheme === 'dark' ? 'light' : 'dark'}
@@ -167,7 +169,7 @@ function App(): React.ReactNode {
                     }}
                   >
                     <Stack>
-                      <Stack.Protected guard={false}>
+                      <Stack.Protected guard={true}>
                         <Stack.Screen
                           name="index"
                           options={{ headerShown: false }}
