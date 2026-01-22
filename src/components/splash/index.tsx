@@ -31,6 +31,7 @@ export function SplashScreen({
       source={splashAnimation}
       autoPlay
       loop={false}
+      speed={1.5}
       onAnimationFinish={onLottieAnimationFinish}
       className="bg-background flex-1"
       resizeMode="contain"

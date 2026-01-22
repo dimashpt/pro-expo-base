@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useColorScheme } from 'react-native';
 
 import * as Fonts from '@expo-google-fonts/plus-jakarta-sans';
@@ -6,7 +6,10 @@ import { Stack, useNavigationContainerRef, usePathname } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { setStatusBarStyle, StatusBar } from 'expo-status-bar';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { KeyboardProvider } from 'react-native-keyboard-controller';
+import {
+  KeyboardAvoidingView,
+  KeyboardProvider,
+} from 'react-native-keyboard-controller';
 import Animated from 'react-native-reanimated';
 
 import '@/lib/i18n'; // Import i18n configuration
@@ -120,6 +123,20 @@ function App(): React.ReactNode {
     setShowMainApp(true);
   };
 
+  const contentWrapper = useCallback(
+    (children: React.ReactNode) => (
+      <KeyboardAvoidingView
+        pointerEvents="box-none"
+        behavior="padding"
+        keyboardVerticalOffset={12}
+        className="flex-1"
+      >
+        {children}
+      </KeyboardAvoidingView>
+    ),
+    [],
+  );
+
   if (!fontsLoaded) {
     return null;
   }
@@ -133,7 +150,10 @@ function App(): React.ReactNode {
         >
           <KeyboardProvider>
             <HeroUINativeProvider
-              config={{ devInfo: { stylingPrinciples: false } }}
+              config={{
+                devInfo: { stylingPrinciples: false },
+                toast: { contentWrapper },
+              }}
             >
               <BottomSheetModalProvider>
                 <StatusBar

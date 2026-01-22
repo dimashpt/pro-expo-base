@@ -71,6 +71,7 @@ function BaseInputField<T extends FieldValues>({
             <IonIcon
               name={secret ? 'eye-outline' : 'eye-off-outline'}
               size={16}
+              className="text-muted"
               pointerEvents="none"
             />
           </PressableFeedback>

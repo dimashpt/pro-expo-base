@@ -28,6 +28,18 @@
   --opacity-disabled: 0.5;
 }
 
+@theme inline static {
+  /* Radius and default sizes - defaults can change by just changing the --radius */
+  --radius-xs: calc(var(--radius) * 0.25);
+  --radius-sm: calc(var(--radius) * 0.5);
+  --radius-md: calc(var(--radius) * 0.75);
+  --radius-lg: calc(var(--radius) * 1);
+  --radius-xl: calc(var(--radius) * 1.5);
+  --radius-2xl: calc(var(--radius) * 2);
+  --radius-3xl: calc(var(--radius) * 3);
+  --radius-4xl: calc(var(--radius) * 4);
+}
+
 @layer theme {
   :root {
     @variant light {
@@ -61,8 +73,8 @@
       --segment: var(--white);
       --segment-foreground: var(--eclipse);
       /* Misc Colors */
-      --border: oklch(0 0 0 / 0%);
       --divider: oklch(72% 0.004 286.32);
+      --border: oklch(88% 0.004 286.32);
       --link: var(--foreground);
       /* Shadows */
       /* --surface-shadow: 0 0px 0px 0 rgba(24, 24, 27, 0.03), 0 2px 10px 0 rgba(24, 24, 27, 0.08); */
@@ -109,8 +121,8 @@
       --segment: oklch(0.3964 0.01 285.93);
       --segment-foreground: var(--foreground);
       /* Misc Colors */
-      --border: oklch(1 0 0 / 0%);
       --divider: oklch(38% 0.006 286.033);
+      --border: oklch(38% 0.006 286.033);
       --link: var(--foreground);
        /* Shadows */
       --surface-shadow: 0 0 0 0 transparent inset; /* No shadow on dark mode */
@@ -118,4 +130,8 @@
       --field-shadow: 0 0 0 0 transparent inset; /* Transparent shadow to allow ring utilities to work */
     }
   }
+}
+
+.centered {
+  @apply justify-center items-center;
 }

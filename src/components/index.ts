@@ -1,3 +1,4 @@
+export * from './animated-blur-view';
 export * from './app-text';
 export * from './checkbox-field';
 export * from './clickable';
