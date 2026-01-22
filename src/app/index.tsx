@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
@@ -12,12 +12,12 @@ import {
   useToast,
 } from 'heroui-native';
 import { Resolver, useForm } from 'react-hook-form';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import { interpolate, useDerivedValue } from 'react-native-reanimated';
 import { useUniwind } from 'uniwind';
 import z from 'zod';
 
-import { AnimatedBlurView, AppText, IonIcon } from '@/components';
-import InputField from '@/components/input-field';
+import { AnimatedBlurView, AppText, InputField, IonIcon } from '@/components';
 import { delay } from '@/utils/async';
 import { emailSchema, stringSchema } from '@/utils/validation';
 
@@ -90,9 +90,10 @@ export default function Index(): React.JSX.Element {
   }
 
   return (
-    <ScrollView
-      className="p-safe bg-background"
-      contentContainerClassName="p-xl flex-1 justify-end gap-lg"
+    <KeyboardAwareScrollView
+      keyboardShouldPersistTaps="handled"
+      className="bg-background"
+      contentContainerClassName="px-xl flex-1 justify-end gap-lg"
     >
       <View className="gap-sm w-full">
         <IonIcon name="person-outline" size={48} />
@@ -147,7 +148,11 @@ export default function Index(): React.JSX.Element {
           <BottomSheetBlurOverlay />
           <BottomSheet.Content contentContainerClassName="pb-safe">
             <Surface className="bg-accent/20 centered mb-md size-16 rounded-full">
-              <IonIcon name="help-outline" size={32} className="text-accent" />
+              <IonIcon
+                name="help-circle-outline"
+                size={32}
+                className="text-accent"
+              />
             </Surface>
             <View className="gap-sm">
               <AppText variant="h5">Forgot Password?</AppText>
@@ -163,6 +168,7 @@ export default function Index(): React.JSX.Element {
                 autoCapitalize="none"
                 returnKeyType="next"
                 variant="secondary"
+                fromBottomSheet
                 disabled={resetPasswordMutation.isPending}
                 prefix={
                   <IonIcon
@@ -192,7 +198,7 @@ export default function Index(): React.JSX.Element {
           </BottomSheet.Content>
         </BottomSheet.Portal>
       </BottomSheet>
-    </ScrollView>
+    </KeyboardAwareScrollView>
   );
 }
 

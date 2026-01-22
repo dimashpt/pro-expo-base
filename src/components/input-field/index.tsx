@@ -1,6 +1,13 @@
-import React, { useState } from 'react';
-import { View } from 'react-native';
+import React, { useCallback, useRef, useState } from 'react';
+import {
+  BlurEvent,
+  findNodeHandle,
+  FocusEvent,
+  TextInput,
+  View,
+} from 'react-native';
 
+import { useBottomSheetInternal } from '@gorhom/bottom-sheet';
 import {
   cn,
   PressableFeedback,
@@ -28,6 +35,7 @@ interface InputFieldProps<T extends FieldValues> extends TextFieldInputProps {
   control?: Control<T>;
   name?: Path<T>;
   rules?: RegisterOptions<T>;
+  fromBottomSheet?: boolean;
 }
 
 function BaseInputField<T extends FieldValues>({
@@ -38,9 +46,50 @@ function BaseInputField<T extends FieldValues>({
   required,
   error,
   disabled,
+  fromBottomSheet,
   ...props
 }: InputFieldProps<T>): React.JSX.Element {
+  const inputRef = useRef<TextInput>(null);
+  const bottomSheetInternal = fromBottomSheet ? useBottomSheetInternal() : null;
   const [secret, setSecret] = useState(props.secureTextEntry);
+
+  const handleOnFocus = useCallback(
+    (e: FocusEvent) => {
+      if (bottomSheetInternal) {
+        bottomSheetInternal.animatedKeyboardState.set((state) => ({
+          ...state,
+          target: e.nativeEvent.target,
+        }));
+      }
+    },
+    [bottomSheetInternal],
+  );
+
+  const handleOnBlur = useCallback(
+    (e: BlurEvent) => {
+      if (bottomSheetInternal) {
+        const keyboardState = bottomSheetInternal.animatedKeyboardState.get();
+        const currentFocusedInput = findNodeHandle(
+          TextInput.State.currentlyFocusedInput() as TextInput | null,
+        );
+        const shouldRemoveCurrentTarget =
+          keyboardState.target === e.nativeEvent.target;
+        const shouldIgnoreBlurEvent =
+          currentFocusedInput &&
+          bottomSheetInternal.textInputNodesRef.current.has(
+            currentFocusedInput,
+          );
+
+        if (shouldRemoveCurrentTarget && !shouldIgnoreBlurEvent) {
+          bottomSheetInternal.animatedKeyboardState.set((state) => ({
+            ...state,
+            target: undefined,
+          }));
+        }
+      }
+    },
+    [bottomSheetInternal],
+  );
 
   return (
     <TextField
@@ -51,7 +100,10 @@ function BaseInputField<T extends FieldValues>({
       {label && <TextField.Label>{label}</TextField.Label>}
       <View className="w-full flex-row items-center">
         <TextField.Input
+          ref={inputRef}
           {...props}
+          onBlur={fromBottomSheet ? handleOnBlur : undefined}
+          onFocus={fromBottomSheet ? handleOnFocus : undefined}
           secureTextEntry={secret}
           className={cn(
             'flex-1',
@@ -85,7 +137,7 @@ function BaseInputField<T extends FieldValues>({
   );
 }
 
-export default function InputField<T extends FieldValues>(
+export function InputField<T extends FieldValues>(
   props: InputFieldProps<T>,
 ): React.JSX.Element {
   const { control, name, rules, ...rest } = props;

@@ -1,10 +1,10 @@
 import React, { JSX } from 'react';
+import { ScrollView } from 'react-native';
 
 import { Accordion } from 'heroui-native';
 
 import { AppText } from '@/components';
 import { MenuList, MenuListData } from '@/components/menu-list';
-import { ScreenScrollView } from '@/components/screen-scrollview';
 import { LANGUAGES } from '@/constants/languages';
 import { THEMES } from '@/constants/ui';
 import { useAppStore } from '@/store';
@@ -58,11 +58,11 @@ export default function ProfileScreen(): JSX.Element {
   ];
 
   return (
-    <ScreenScrollView contentContainerClassName="gap-lg" className="py-lg">
+    <ScrollView contentContainerClassName="gap-lg" className="py-lg">
       <AppText variant="h1">Settings</AppText>
       <Accordion isCollapsible={false} variant="surface">
         <MenuList menu={menu} />
       </Accordion>
-    </ScreenScrollView>
+    </ScrollView>
   );
 }
