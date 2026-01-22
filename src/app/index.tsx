@@ -1,221 +1,236 @@
-import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
-
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from '@tanstack/react-query';
+import React, { useRef, useState } from 'react';
 import {
-  BottomSheet,
-  Button,
-  PressableFeedback,
-  Surface,
-  useBottomSheetAnimation,
-  useToast,
-} from 'heroui-native';
-import { Resolver, useForm } from 'react-hook-form';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
-import { interpolate, useDerivedValue } from 'react-native-reanimated';
-import { useUniwind } from 'uniwind';
-import z from 'zod';
+  Dimensions,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  ScrollView,
+  View,
+} from 'react-native';
 
-import { AnimatedBlurView, AppText, InputField, IonIcon } from '@/components';
-import { delay } from '@/utils/async';
-import { emailSchema, stringSchema } from '@/utils/validation';
+import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
+import { Button, cn, PressableFeedback } from 'heroui-native';
+import Animated, {
+  interpolate,
+  interpolateColor,
+  SharedValue,
+  useAnimatedStyle,
+  useSharedValue,
+} from 'react-native-reanimated';
+import { useCSSVariable } from 'uniwind';
 
-const loginFormSchema = z.object({
-  email: emailSchema,
-  password: stringSchema,
-});
+import { AppText, IonIcon } from '@/components';
+import { useAppStore } from '@/store/app-store';
 
-const forgotPasswordFormSchema = z.object({
-  email: emailSchema,
-});
-type LoginFormSchema = z.infer<typeof loginFormSchema>;
-type ForgotPasswordFormSchema = z.infer<typeof forgotPasswordFormSchema>;
+const { width } = Dimensions.get('window');
 
-export default function Index(): React.JSX.Element {
-  const { toast } = useToast();
-  const [showForgotPasswordSheet, setShowForgotPasswordSheet] = useState(false);
+interface OnboardingSlide {
+  id: number;
+  title: string;
+  subtitle: string;
+  icon: keyof typeof Ionicons.glyphMap;
+  iconColor: string;
+  backgroundColor: string;
+}
 
-  const { control: loginControl, handleSubmit: loginHandleSubmit } =
-    useForm<LoginFormSchema>({
-      resolver: zodResolver(loginFormSchema) as Resolver<LoginFormSchema>,
-      defaultValues: {
-        email: '',
-        password: '',
-      },
-      mode: 'onChange',
-    });
+const slides: OnboardingSlide[] = [
+  {
+    id: 1,
+    title: 'The best way to learn math and computer science',
+    subtitle:
+      'Effective, hands-on learning, while learning at your level with guided bite-sized lessons.',
+    icon: 'rocket-outline',
+    iconColor: '#4CAF50',
+    backgroundColor: '#F8F9FA',
+  },
+  {
+    id: 2,
+    title: 'Interactive problem solving',
+    subtitle:
+      'Learn by doing with interactive exercises that adapt to your learning pace and style.',
+    icon: 'bulb-outline',
+    iconColor: '#FF9800',
+    backgroundColor: '#FFF8E1',
+  },
+  {
+    id: 3,
+    title: 'Track your progress',
+    subtitle:
+      'Monitor your learning journey with detailed analytics and achievement tracking.',
+    icon: 'stats-chart-outline',
+    iconColor: '#2196F3',
+    backgroundColor: '#E3F2FD',
+  },
+];
 
-  const {
-    control: forgotPasswordControl,
-    handleSubmit: forgotPasswordHandleSubmit,
-    reset: forgotPasswordReset,
-  } = useForm<ForgotPasswordFormSchema>({
-    resolver: zodResolver(
-      forgotPasswordFormSchema,
-    ) as Resolver<ForgotPasswordFormSchema>,
-    defaultValues: {
-      email: '',
-    },
-    mode: 'onChange',
+interface IndicatorDotProps {
+  index: number;
+  progress: SharedValue<number>;
+  bgMuted: string;
+  bgAccent: string;
+  onPress: () => void;
+}
+
+function IndicatorDot({
+  index,
+  progress,
+  bgMuted,
+  bgAccent,
+  onPress,
+}: IndicatorDotProps): React.JSX.Element {
+  const animatedStyle = useAnimatedStyle(() => {
+    // Calculate how close the scroll position is to this indicator's index
+    const distance = Math.abs(progress.value - index);
+
+    // Interpolate width: 24 when active (distance = 0), 8 when inactive (distance >= 1)
+    const width = interpolate(distance, [0, 1], [24, 8], 'clamp');
+
+    // Interpolate color: accent when active, muted when inactive
+    const backgroundColor = interpolateColor(
+      distance,
+      [0, 1],
+      [bgAccent, bgMuted],
+    );
+
+    return {
+      width,
+      backgroundColor,
+    };
   });
-
-  const resetPasswordMutation = useMutation({
-    mutationFn: (_data: ForgotPasswordFormSchema) => delay(3000),
-    onSuccess: (_, { email }) => {
-      toggleForgotPasswordSheet(false);
-
-      toast.show({
-        variant: 'success',
-        label: `Email sent to ${email}`,
-        description: 'Check your inbox to reset your password',
-        actionLabel: 'Close',
-        onActionPress: ({ hide }) => hide(),
-      });
-    },
-  });
-
-  function toggleForgotPasswordSheet(value: boolean): void {
-    setShowForgotPasswordSheet(value);
-
-    if (!value) forgotPasswordReset();
-  }
-
-  function onSubmitLogin(_: LoginFormSchema): void {
-    // Do a login mutation
-  }
-
-  function onSubmitForgotPassword(data: ForgotPasswordFormSchema): void {
-    resetPasswordMutation.mutate(data);
-  }
 
   return (
-    <KeyboardAwareScrollView
-      keyboardShouldPersistTaps="handled"
-      className="bg-background"
-      contentContainerClassName="px-xl flex-1 justify-end gap-lg"
-    >
-      <View className="gap-sm w-full">
-        <IonIcon name="person-outline" size={48} />
-        <AppText variant="h1">Log In</AppText>
-        <AppText variant="body" color="muted">
-          Enter your details below
-        </AppText>
-      </View>
-      <InputField
-        control={loginControl}
-        name="email"
-        label="Email"
-        placeholder="Enter your email"
-        keyboardType="email-address"
-        autoCapitalize="none"
-        returnKeyType="next"
-        prefix={
-          <IonIcon name="mail-outline" size={16} className="text-muted" />
-        }
-      />
-      <InputField
-        control={loginControl}
-        name="password"
-        label="Password"
-        placeholder="Enter your password"
-        secureTextEntry
-        prefix={
-          <IonIcon
-            name="lock-closed-outline"
-            size={16}
-            className="text-muted"
-          />
-        }
-        returnKeyType="done"
-      />
-      <PressableFeedback onPress={() => setShowForgotPasswordSheet(true)}>
-        <AppText
-          variant="small"
-          color="accent"
-          className="text-right font-semibold"
-        >
-          Forgot password?
-        </AppText>
-      </PressableFeedback>
-      <Button onPress={loginHandleSubmit(onSubmitLogin)}>Login</Button>
-      <BottomSheet
-        isOpen={showForgotPasswordSheet}
-        onOpenChange={toggleForgotPasswordSheet}
-        isDismissKeyboardOnClose
-      >
-        <BottomSheet.Portal>
-          <BottomSheetBlurOverlay />
-          <BottomSheet.Content contentContainerClassName="pb-safe">
-            <Surface className="bg-accent/20 centered mb-md size-16 rounded-full">
-              <IonIcon
-                name="help-circle-outline"
-                size={32}
-                className="text-accent"
-              />
-            </Surface>
-            <View className="gap-sm">
-              <AppText variant="h5">Forgot Password?</AppText>
-              <AppText variant="body" color="muted">
-                Enter your email address and we'll send you a link to reset your
-                password.
-              </AppText>
-              <InputField
-                control={forgotPasswordControl}
-                name="email"
-                placeholder="johndoe@example.com"
-                keyboardType="email-address"
-                autoCapitalize="none"
-                returnKeyType="next"
-                variant="secondary"
-                fromBottomSheet
-                disabled={resetPasswordMutation.isPending}
-                prefix={
-                  <IonIcon
-                    name="mail-outline"
-                    size={16}
-                    className="text-muted"
-                  />
-                }
-              />
-              <View className="gap-sm mt-md flex-row">
-                <Button
-                  variant="tertiary"
-                  className="flex-1"
-                  onPress={() => setShowForgotPasswordSheet(false)}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  isDisabled={resetPasswordMutation.isPending}
-                  className="flex-1"
-                  onPress={forgotPasswordHandleSubmit(onSubmitForgotPassword)}
-                >
-                  Send
-                </Button>
-              </View>
-            </View>
-          </BottomSheet.Content>
-        </BottomSheet.Portal>
-      </BottomSheet>
-    </KeyboardAwareScrollView>
+    <PressableFeedback onPress={onPress}>
+      <Animated.View className="h-2 rounded" style={animatedStyle} />
+    </PressableFeedback>
   );
 }
 
-export function BottomSheetBlurOverlay(): React.JSX.Element {
-  const { theme } = useUniwind();
-  const { progress } = useBottomSheetAnimation();
-  const blurIntensity = useDerivedValue(() => {
-    return interpolate(progress.get(), [0, 1, 2], [0, 40, 0]);
-  });
+export default function OnboardingScreen(): React.JSX.Element {
+  const router = useRouter();
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const scrollViewRef = useRef<ScrollView>(null);
+  const scrollX = useSharedValue(0);
+  const bgMuted = useCSSVariable('--color-muted') as string;
+  const bgAccent = useCSSVariable('--color-accent') as string;
+  const { setHasCompletedOnboarding } = useAppStore();
+  const isLastSlide = currentSlide === slides.length - 1;
+
+  function onScroll(event: NativeSyntheticEvent<NativeScrollEvent>): void {
+    const offsetX = event.nativeEvent.contentOffset.x;
+    const slideSize = event.nativeEvent.layoutMeasurement.width;
+
+    // Update shared value with continuous scroll progress
+    scrollX.value = offsetX / slideSize;
+
+    // Update current slide index for button state
+    const index = Math.round(offsetX / slideSize);
+    if (index !== currentSlide) {
+      setCurrentSlide(index);
+    }
+  }
+
+  function goToSlide(index: number): void {
+    scrollViewRef.current?.scrollTo({ x: index * width, animated: true });
+    // Delay state update to sync with scroll animation
+    setTimeout(() => {
+      setCurrentSlide(index);
+    }, 300);
+  }
+
+  function handleNext(): void {
+    goToSlide(currentSlide + 1);
+  }
+
+  function handleFinish(): void {
+    setHasCompletedOnboarding(true);
+    router.replace('/login');
+  }
+
+  function handleSkip(): void {
+    goToSlide(slides.length - 1);
+  }
 
   return (
-    <BottomSheet.Close style={StyleSheet.absoluteFill}>
-      <AnimatedBlurView
-        blurIntensity={blurIntensity}
-        tint={theme === 'dark' ? 'dark' : 'systemUltraThinMaterialDark'}
-        style={StyleSheet.absoluteFill}
-      />
-    </BottomSheet.Close>
+    <View className="pt-safe bg-background flex-1">
+      {/* Header */}
+      <PressableFeedback
+        onPress={handleSkip}
+        className={cn(
+          'px-lg pt-sm flex-row justify-end',
+          isLastSlide && 'hidden',
+        )}
+      >
+        <AppText variant="body" color="muted">
+          Skip
+        </AppText>
+      </PressableFeedback>
+
+      {/* Swipable Content */}
+      <ScrollView
+        ref={scrollViewRef}
+        horizontal
+        pagingEnabled
+        showsHorizontalScrollIndicator={false}
+        onScroll={onScroll}
+        scrollEventThrottle={16}
+      >
+        {slides.map((slide) => (
+          <View
+            key={slide.id}
+            className="flex-1 justify-center"
+            style={{ width }}
+          >
+            <View className="px-2xl gap-2xl flex-1 justify-center">
+              {/* Icon */}
+              <View
+                className="size-30 items-center justify-center self-center rounded-full"
+                style={{ backgroundColor: slide.iconColor + '20' }}
+              >
+                <Ionicons name={slide.icon} size={60} color={slide.iconColor} />
+              </View>
+
+              {/* Text Content */}
+              <View className="gap-md items-center">
+                <AppText variant="h3" className="text-center">
+                  {slide.title}
+                </AppText>
+                <AppText variant="body" color="muted" className="text-center">
+                  {slide.subtitle}
+                </AppText>
+              </View>
+            </View>
+          </View>
+        ))}
+      </ScrollView>
+
+      {/* Bottom Actions */}
+      <View className="gap-2xl flex-row justify-between px-5 pb-10">
+        {/* Page Indicators */}
+        <View className="pl-xl flex-1 flex-row gap-2 py-5">
+          {slides.map((_, index) => (
+            <IndicatorDot
+              key={index}
+              index={index}
+              progress={scrollX}
+              bgMuted={bgMuted}
+              bgAccent={bgAccent}
+              onPress={() => goToSlide(index)}
+            />
+          ))}
+        </View>
+        <Button
+          size="lg"
+          className="rounded-full"
+          onPress={isLastSlide ? handleFinish : handleNext}
+          isIconOnly
+        >
+          <IonIcon
+            name={isLastSlide ? 'checkmark' : 'arrow-forward-outline'}
+            size={24}
+            className="text-white"
+          />
+        </Button>
+      </View>
+    </View>
   );
 }

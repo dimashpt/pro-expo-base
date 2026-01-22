@@ -189,7 +189,11 @@ function App(): React.ReactNode {
                     }}
                   >
                     <Stack>
-                      <Stack.Protected guard={true}>
+                      <Stack.Protected
+                        guard={
+                          status === 'loggedOut' && !hasCompletedOnboarding
+                        }
+                      >
                         <Stack.Screen
                           name="index"
                           options={{ headerShown: false }}
