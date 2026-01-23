@@ -1,32 +1,9 @@
 import { JSX } from 'react';
 
 import { Stack } from 'expo-router';
-import { useTranslation } from 'react-i18next';
 
 export default function GuardLayout(): JSX.Element {
-  const { t } = useTranslation();
-  const SCREENS: ScreenMap[] = [
-    {
-      path: 'storybook',
-      title: t('storybook.title'),
-      headerShown: true,
-    },
-    {
-      path: '(orders)/order-details',
-      title: t('order_details.title'),
-      headerShown: false,
-    },
-    {
-      path: '(orders)/order-form',
-      title: t('order_form.title'),
-      headerShown: false,
-    },
-    {
-      path: '(chat)/chat-room',
-      title: 'Chat Room',
-      headerShown: false,
-    },
-  ];
+  const SCREENS: ScreenMap[] = [];
 
   return (
     <Stack>
