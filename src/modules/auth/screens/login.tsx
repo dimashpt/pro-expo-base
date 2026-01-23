@@ -3,12 +3,18 @@ import { View } from 'react-native';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
-import { Button, PressableFeedback, useToast } from 'heroui-native';
+import { PressableFeedback, useToast } from 'heroui-native';
 import { Resolver, useForm } from 'react-hook-form';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import z from 'zod';
 
-import { AppText, BottomSheet, InputField, IonIcon } from '@/components';
+import {
+  AppText,
+  BottomSheet,
+  Button,
+  InputField,
+  IonIcon,
+} from '@/components';
 import { delay } from '@/utils/async';
 import { emailSchema, stringSchema } from '@/utils/validation';
 
@@ -139,7 +145,11 @@ export default function LoginScreen(): React.JSX.Element {
         </PressableFeedback>
 
         {/* Login Button */}
-        <Button onPress={loginHandleSubmit(onSubmitLogin)}>Sign In</Button>
+        <Button
+          label="Sign In"
+          variant="primary"
+          onPress={loginHandleSubmit(onSubmitLogin)}
+        />
 
         {/* Divider */}
         <View className="gap-lg my-md flex-row items-center">
