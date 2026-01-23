@@ -15,6 +15,7 @@ import {
   InputField,
   IonIcon,
 } from '@/components';
+import { useAuthStore } from '@/store';
 import { delay } from '@/utils/async';
 import { emailSchema, stringSchema } from '@/utils/validation';
 
@@ -32,6 +33,7 @@ type ForgotPasswordFormSchema = z.infer<typeof forgotPasswordFormSchema>;
 export default function LoginScreen(): React.JSX.Element {
   const forgotPasswordBottomSheetRef = useRef<BottomSheet>(null);
   const { toast } = useToast();
+  const { setStatus, setUser } = useAuthStore();
 
   const { control: loginControl, handleSubmit: loginHandleSubmit } =
     useForm<LoginFormSchema>({
@@ -57,6 +59,24 @@ export default function LoginScreen(): React.JSX.Element {
     mode: 'onChange',
   });
 
+  const loginMutation = useMutation({
+    mutationFn: (_data: LoginFormSchema) => delay(3000),
+    onSuccess: () => {
+      setStatus('loggedIn');
+      setUser({
+        email: 'dimas@dimas.com',
+        name: 'Dimas',
+      });
+      toast.show({
+        variant: 'success',
+        label: `Login successful`,
+        description: 'You have successfully logged in',
+        actionLabel: 'Close',
+        onActionPress: ({ hide }) => hide(),
+      });
+    },
+  });
+
   const forgotPasswordMutation = useMutation({
     mutationFn: (_data: ForgotPasswordFormSchema) => delay(3000),
     onSuccess: (_, { email }) => {
@@ -72,8 +92,8 @@ export default function LoginScreen(): React.JSX.Element {
     },
   });
 
-  function onSubmitLogin(_: LoginFormSchema): void {
-    // Do a login mutation
+  function onSubmitLogin(data: LoginFormSchema): void {
+    loginMutation.mutate(data);
   }
 
   function onSubmitForgotPassword(data: ForgotPasswordFormSchema): void {
@@ -149,6 +169,7 @@ export default function LoginScreen(): React.JSX.Element {
           label="Sign In"
           variant="primary"
           onPress={loginHandleSubmit(onSubmitLogin)}
+          loading={loginMutation.isPending}
         />
 
         {/* Divider */}

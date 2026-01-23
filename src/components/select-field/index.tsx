@@ -14,6 +14,7 @@ export type SelectFieldProps = {
   disabled?: boolean;
   trigger: React.ReactNode;
   presentation?: SelectContentProps['presentation'];
+  title?: string;
 };
 
 export function SelectField({
@@ -23,6 +24,7 @@ export function SelectField({
   disabled = false,
   trigger,
   presentation = 'popover',
+  title,
 }: SelectFieldProps): React.JSX.Element {
   return (
     <Select onValueChange={onChange} isDisabled={disabled} value={value}>
@@ -34,6 +36,7 @@ export function SelectField({
           placement="bottom"
           presentation={presentation}
         >
+          {title && <Select.ListLabel>{title}</Select.ListLabel>}
           {options.map((option) => (
             <Select.Item
               key={option.value}

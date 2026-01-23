@@ -13,6 +13,7 @@ export type SelectMenuItem = BaseMenuListDataItem & {
   onSelect: (value?: Option) => void;
   options: Array<Option>;
   value?: string;
+  title?: string;
 };
 
 export function MenuListSelect(item: SelectMenuItem): React.JSX.Element {
@@ -23,6 +24,7 @@ export function MenuListSelect(item: SelectMenuItem): React.JSX.Element {
       options={item.options}
       value={item.options.find((opt) => opt.value === item.value)}
       onChange={item.onSelect}
+      title={item.title}
       trigger={
         <PressableFeedback className="gap-sm px-lg py-md flex-row">
           <AppText variant="label" className="flex-1">

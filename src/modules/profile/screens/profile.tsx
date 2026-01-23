@@ -20,6 +20,7 @@ export default function ProfileScreen(): JSX.Element {
     language,
     setLanguage,
   } = useAppStore();
+
   const menu: MenuListData = [
     {
       title: 'Theme',
@@ -58,7 +59,7 @@ export default function ProfileScreen(): JSX.Element {
   ];
 
   return (
-    <ScrollView contentContainerClassName="gap-lg" className="py-lg">
+    <ScrollView className="p-xl" contentContainerClassName="gap-lg">
       <AppText variant="h1">Settings</AppText>
       <Accordion isCollapsible={false} variant="surface">
         <MenuList menu={menu} />
