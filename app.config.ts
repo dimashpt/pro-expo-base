@@ -21,7 +21,6 @@ export default ({ config: defaultConfig }: ConfigContext): ExpoConfig => {
     icon: './src/assets/images/icon.png',
     scheme: APP_SCHEME,
     userInterfaceStyle: 'automatic',
-    newArchEnabled: true,
     experiments: {
       reactCompiler: true,
       typedRoutes: true,
@@ -30,7 +29,10 @@ export default ({ config: defaultConfig }: ConfigContext): ExpoConfig => {
       router: { origin: false },
       eas: { projectId: EXPO_PROJECT_ID },
     },
-    updates: { url: `https://u.expo.dev/${EXPO_PROJECT_ID}` },
+    updates: {
+      url: `https://u.expo.dev/${EXPO_PROJECT_ID}`,
+      enableBsdiffPatchSupport: true,
+    },
     runtimeVersion: { policy: 'appVersion' },
     ios: {
       ...defaultConfig.ios,
@@ -74,6 +76,8 @@ export default ({ config: defaultConfig }: ConfigContext): ExpoConfig => {
       ],
     },
     plugins: [
+      '@sentry/react-native',
+      'expo-image',
       'expo-secure-store',
       [
         'expo-sqlite',
@@ -94,6 +98,8 @@ export default ({ config: defaultConfig }: ConfigContext): ExpoConfig => {
       [
         'expo-build-properties',
         {
+          buildReactNativeFromSource: true,
+          useHermesV1: true,
           ios: {
             deploymentTarget: '15.5',
           },

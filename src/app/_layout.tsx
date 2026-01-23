@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useColorScheme } from 'react-native';
+import { Appearance, Platform, useColorScheme } from 'react-native';
 
 import * as Fonts from '@expo-google-fonts/plus-jakarta-sans';
 import { Stack, useNavigationContainerRef, usePathname } from 'expo-router';
@@ -26,14 +26,13 @@ import { Uniwind, useCSSVariable } from 'uniwind';
 import { DevTools } from '@/components';
 import { SplashScreen as SplashScreenComponent } from '@/components/splash';
 import { useTheme } from '@/hooks';
-import { initExceptionHandler } from '@/lib/exception-handler';
 import { queryClient } from '@/lib/react-query';
 import { navigationIntegration, Sentry } from '@/lib/sentry';
 import { useAppStore, useAuthStore } from '@/store';
 import { logger } from '@/utils/logger';
 
 // Initialize Exception Handler
-initExceptionHandler();
+// initExceptionHandler();
 
 // Prevent auto hide splash screen
 SplashScreen.setOptions({
@@ -95,14 +94,31 @@ function App(): React.ReactNode {
   }, []);
 
   useEffect(() => {
-    Uniwind.setTheme(appColorScheme);
-    setStatusBarStyle(
+    const statusbarStyle =
       appColorScheme === 'system'
         ? 'auto'
         : appColorScheme === 'light'
           ? 'dark'
-          : 'light',
+          : 'light';
+    const colorScheme = Appearance.getColorScheme();
+    const appTheme =
+      appColorScheme === 'system'
+        ? colorScheme === 'dark'
+          ? 'dark'
+          : 'light'
+        : appColorScheme === 'light'
+          ? 'dark'
+          : 'light';
+
+    // FIXME: Uniwind.setTheme('system') is crashing in Expo SDK 55
+    // Update to previous change after patch in uniwind library (currently 1.2.6)
+    Uniwind.setTheme(
+      Platform.select({ android: appTheme, ios: appColorScheme }) as
+        | 'light'
+        | 'dark'
+        | 'system',
     );
+    setStatusBarStyle(statusbarStyle);
   }, [appColorScheme, colorScheme, showBetaFeatures]);
 
   useEffect(() => {
