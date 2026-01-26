@@ -1,15 +1,17 @@
 import React, { JSX } from 'react';
 import { ScrollView } from 'react-native';
 
+import { useRouter } from 'expo-router';
 import { Accordion } from 'heroui-native';
 
-import { AppText } from '@/components';
+import { AppText, Button } from '@/components';
 import { MenuList, MenuListData } from '@/components/menu-list';
 import { LANGUAGES } from '@/constants/languages';
 import { THEMES } from '@/constants/ui';
-import { useAppStore } from '@/store';
+import { useAppStore, useAuthStore } from '@/store';
 
 export default function ProfileScreen(): JSX.Element {
+  const router = useRouter();
   const {
     pushNotificationsEnabled,
     setPushNotificationsEnabled,
@@ -20,6 +22,12 @@ export default function ProfileScreen(): JSX.Element {
     language,
     setLanguage,
   } = useAppStore();
+  const { logout } = useAuthStore();
+
+  function handleLogout(): void {
+    logout();
+    router.replace('/login');
+  }
 
   const menu: MenuListData = [
     {
@@ -64,6 +72,12 @@ export default function ProfileScreen(): JSX.Element {
       <Accordion isCollapsible={false} variant="surface">
         <MenuList menu={menu} />
       </Accordion>
+      <Button
+        label="Logout"
+        variant="danger-soft"
+        size="sm"
+        onPress={handleLogout}
+      />
     </ScrollView>
   );
 }

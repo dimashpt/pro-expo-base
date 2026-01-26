@@ -1,7 +1,8 @@
 {
   "name": "app",
   "main": "expo-router/entry",
-  "version": "0.2.0",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
     "prepare": "husky",
     "dev": "expo start",
@@ -149,7 +150,9 @@
     "typescript": "5.9.3",
     "typescript-eslint": "8.53.1"
   },
-  "private": true,
+  "overrides": {
+    "hermes-compiler": "250829098.0.4"
+  },
   "expo": {
     "install": {
       "exclude": []

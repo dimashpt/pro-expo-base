@@ -152,6 +152,7 @@ export default function LoginScreen(): React.JSX.Element {
             />
           }
           returnKeyType="done"
+          onSubmitEditing={loginHandleSubmit(onSubmitLogin)}
         />
 
         {/* Forgot Password Link */}
