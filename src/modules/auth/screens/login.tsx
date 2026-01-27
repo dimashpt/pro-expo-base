@@ -11,6 +11,7 @@ import z from 'zod';
 
 import {
   AppText,
+  AuthHeader,
   BottomSheet,
   Button,
   InputField,
@@ -105,69 +106,76 @@ export default function LoginScreen(): React.JSX.Element {
   }
 
   return (
-    <KeyboardAwareScrollView
-      keyboardShouldPersistTaps="handled"
-      contentContainerClassName="flex-1 px-xl pb-safe justify-end bg-background gap-md"
-      showsVerticalScrollIndicator={false}
-    >
-      {/* Header Section */}
-      <View className="gap-xs">
-        {/* Decorative Icon */}
-        <View className="bg-surface mb-xl size-16 items-center justify-center rounded-2xl shadow-sm">
-          <IonIcon name="person-outline" size={32} className="text-accent" />
+    <View className="bg-background flex-1">
+      {/* Navigation Header */}
+      <AuthHeader showBackButton={false} />
+
+      <KeyboardAwareScrollView
+        keyboardShouldPersistTaps="handled"
+        contentContainerClassName="flex-1 px-xl pb-safe gap-md"
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Header Section */}
+        <View className="gap-xs">
+          {/* Decorative Icon */}
+          <View className="bg-surface mb-xl size-16 items-center justify-center rounded-2xl shadow-sm">
+            <IonIcon name="person-outline" size={32} className="text-accent" />
+          </View>
+
+          <AppText variant="h2" className="text-accent">
+            Welcome Back
+          </AppText>
+          <AppText variant="body" color="muted">
+            Sign in to your account to continue
+          </AppText>
         </View>
 
-        <AppText variant="h2" className="text-accent">
-          Welcome Back
-        </AppText>
-        <AppText variant="body" color="muted">
-          Sign in to your account to continue
-        </AppText>
-      </View>
+        {/* Form Section */}
+        <View className="gap-md">
+          {/* Email Input */}
+          <InputField
+            control={loginControl}
+            name="email"
+            label="Email Address"
+            placeholder="name@example.com"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            returnKeyType="next"
+            prefix={
+              <IonIcon name="mail-outline" size={16} className="text-muted" />
+            }
+          />
 
-      {/* Form Section */}
-      <View className="gap-md">
-        {/* Email Input */}
-        <InputField
-          control={loginControl}
-          name="email"
-          label="Email Address"
-          placeholder="name@example.com"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          returnKeyType="next"
-          prefix={
-            <IonIcon name="mail-outline" size={16} className="text-muted" />
-          }
-        />
+          {/* Password Input */}
+          <InputField
+            control={loginControl}
+            name="password"
+            label="Password"
+            placeholder="••••••••"
+            secureTextEntry
+            prefix={
+              <IonIcon
+                name="lock-closed-outline"
+                size={16}
+                className="text-muted"
+              />
+            }
+            returnKeyType="done"
+            onSubmitEditing={loginHandleSubmit(onSubmitLogin)}
+          />
 
-        {/* Password Input */}
-        <InputField
-          control={loginControl}
-          name="password"
-          label="Password"
-          placeholder="••••••••"
-          secureTextEntry
-          prefix={
-            <IonIcon
-              name="lock-closed-outline"
-              size={16}
-              className="text-muted"
-            />
-          }
-          returnKeyType="done"
-          onSubmitEditing={loginHandleSubmit(onSubmitLogin)}
-        />
+          {/* Forgot Password Link */}
+          <PressableFeedback
+            onPress={() => forgotPasswordBottomSheetRef.current?.open()}
+            className="items-end"
+          >
+            <AppText variant="small" color="accent" className="font-semibold">
+              Forgot password?
+            </AppText>
+          </PressableFeedback>
+        </View>
 
-        {/* Forgot Password Link */}
-        <PressableFeedback
-          onPress={() => forgotPasswordBottomSheetRef.current?.open()}
-          className="items-end"
-        >
-          <AppText variant="small" color="accent" className="font-semibold">
-            Forgot password?
-          </AppText>
-        </PressableFeedback>
+        <View className="flex-1" />
 
         {/* Login Button */}
         <Button
@@ -197,51 +205,51 @@ export default function LoginScreen(): React.JSX.Element {
             </AppText>
           </PressableFeedback>
         </View>
-      </View>
 
-      {/* Footer */}
-      <View className="gap-lg items-center">
-        <AppText variant="tiny" color="muted" className="text-center">
-          By signing in, you agree to our{' '}
-          <AppText variant="tiny" color="accent" className="font-semibold">
-            Terms
-          </AppText>{' '}
-          and{' '}
-          <AppText variant="tiny" color="accent" className="font-semibold">
-            Privacy Policy
+        {/* Footer */}
+        <View className="gap-lg items-center">
+          <AppText variant="tiny" color="muted" className="text-center">
+            By signing in, you agree to our{' '}
+            <AppText variant="tiny" color="accent" className="font-semibold">
+              Terms
+            </AppText>{' '}
+            and{' '}
+            <AppText variant="tiny" color="accent" className="font-semibold">
+              Privacy Policy
+            </AppText>
           </AppText>
-        </AppText>
-      </View>
+        </View>
 
-      {/* Forgot Password Bottom Sheet */}
-      <BottomSheet.Confirm
-        ref={forgotPasswordBottomSheetRef}
-        title="Reset Your Password"
-        description="Enter your email address and we'll send you a link to create a new password."
-        variant="warning"
-        onClose={forgotPasswordReset}
-        submitButtonLabel="Send Reset Link"
-        submitButtonProps={{ loading: forgotPasswordMutation.isPending }}
-        onPressCancel={() => {}}
-        onPressSubmit={forgotPasswordHandleSubmit(onSubmitForgotPassword)}
-      >
-        <InputField
-          control={forgotPasswordControl}
-          name="email"
-          label="Email Address"
-          placeholder="name@example.com"
-          keyboardType="email-address"
-          autoCapitalize="none"
-          returnKeyType="next"
-          variant="secondary"
-          fromBottomSheet
-          disabled={forgotPasswordMutation.isPending}
-          prefix={
-            <IonIcon name="mail-outline" size={16} className="text-muted" />
-          }
-          onSubmitEditing={forgotPasswordHandleSubmit(onSubmitForgotPassword)}
-        />
-      </BottomSheet.Confirm>
-    </KeyboardAwareScrollView>
+        {/* Forgot Password Bottom Sheet */}
+        <BottomSheet.Confirm
+          ref={forgotPasswordBottomSheetRef}
+          title="Reset Your Password"
+          description="Enter your email address and we'll send you a link to create a new password."
+          variant="warning"
+          onClose={forgotPasswordReset}
+          submitButtonLabel="Send Reset Link"
+          submitButtonProps={{ loading: forgotPasswordMutation.isPending }}
+          onPressCancel={() => {}}
+          onPressSubmit={forgotPasswordHandleSubmit(onSubmitForgotPassword)}
+        >
+          <InputField
+            control={forgotPasswordControl}
+            name="email"
+            label="Email Address"
+            placeholder="name@example.com"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            returnKeyType="next"
+            variant="secondary"
+            fromBottomSheet
+            disabled={forgotPasswordMutation.isPending}
+            prefix={
+              <IonIcon name="mail-outline" size={16} className="text-muted" />
+            }
+            onSubmitEditing={forgotPasswordHandleSubmit(onSubmitForgotPassword)}
+          />
+        </BottomSheet.Confirm>
+      </KeyboardAwareScrollView>
+    </View>
   );
 }
