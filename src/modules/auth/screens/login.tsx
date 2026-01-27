@@ -137,7 +137,7 @@ export default function LoginScreen(): React.JSX.Element {
             control={loginControl}
             name="email"
             label="Email Address"
-            placeholder="name@example.com"
+            placeholder="Enter your email address"
             keyboardType="email-address"
             autoCapitalize="none"
             returnKeyType="next"
@@ -151,7 +151,7 @@ export default function LoginScreen(): React.JSX.Element {
             control={loginControl}
             name="password"
             label="Password"
-            placeholder="••••••••"
+            placeholder="Enter your password"
             secureTextEntry
             prefix={
               <IonIcon

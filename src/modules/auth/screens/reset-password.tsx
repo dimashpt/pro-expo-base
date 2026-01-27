@@ -100,7 +100,7 @@ export default function ResetPasswordScreen(): React.JSX.Element {
                 control={control}
                 name="password"
                 label="New Password"
-                placeholder="••••••••"
+                placeholder="Enter your new password"
                 secureTextEntry
                 prefix={
                   <IonIcon
@@ -132,7 +132,7 @@ export default function ResetPasswordScreen(): React.JSX.Element {
             control={control}
             name="confirmPassword"
             label="Confirm Password"
-            placeholder="••••••••"
+            placeholder="Confirm your new password"
             secureTextEntry
             prefix={
               <IonIcon
