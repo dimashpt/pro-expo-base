@@ -1,16 +1,11 @@
 import React, { useImperativeHandle, useState } from 'react';
 import { View } from 'react-native';
 
-import {
-  Button,
-  ButtonRootProps,
-  cn,
-  BottomSheet as HNBottomSheet,
-  Surface,
-} from 'heroui-native';
+import { cn, BottomSheet as HNBottomSheet, Surface } from 'heroui-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AppText } from '../app-text';
+import { Button, ButtonProps } from '../button';
 import { IonIcon } from '../mapped';
 import { BottomSheetBlurOverlay } from './bottom-sheet-overlay';
 
@@ -34,8 +29,8 @@ export type BottomSheetConfirmationProps = BottomSheetProps & {
   centered?: boolean;
   onPressCancel?: () => void;
   onPressSubmit?: () => void;
-  cancelButtonProps?: Omit<ButtonRootProps, 'onPress' | 'children'>;
-  submitButtonProps?: Omit<ButtonRootProps, 'onPress' | 'children'>;
+  cancelButtonProps?: Omit<ButtonProps, 'onPress' | 'children'>;
+  submitButtonProps?: Omit<ButtonProps, 'onPress' | 'children'>;
   cancelButtonLabel?: string;
   submitButtonLabel?: string;
 };
@@ -186,9 +181,8 @@ export function BottomSheetConfirmation({
                 (ref as React.RefObject<BottomSheet>)?.current?.close();
               }}
               className={cn('flex-1', cancelButtonProps?.className)}
-            >
-              {cancelButtonLabel ?? 'Cancel'}
-            </Button>
+              label={cancelButtonLabel ?? 'Cancel'}
+            />
           )}
           {onPressSubmit && (
             <Button
@@ -196,9 +190,8 @@ export function BottomSheetConfirmation({
               {...submitButtonProps}
               onPress={onPressSubmit}
               className={cn('flex-1', submitButtonProps?.className)}
-            >
-              {submitButtonLabel ?? 'Submit'}
-            </Button>
+              label={submitButtonLabel ?? 'Submit'}
+            />
           )}
         </View>
       ) : null}

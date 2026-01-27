@@ -3,6 +3,7 @@ import { View } from 'react-native';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'expo-router';
 import { PressableFeedback, useToast } from 'heroui-native';
 import { Resolver, useForm } from 'react-hook-form';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
@@ -32,6 +33,7 @@ type ForgotPasswordFormSchema = z.infer<typeof forgotPasswordFormSchema>;
 
 export default function LoginScreen(): React.JSX.Element {
   const forgotPasswordBottomSheetRef = useRef<BottomSheet>(null);
+  const router = useRouter();
   const { toast } = useToast();
   const { setStatus, setUser } = useAuthStore();
 
@@ -78,14 +80,16 @@ export default function LoginScreen(): React.JSX.Element {
   });
 
   const forgotPasswordMutation = useMutation({
-    mutationFn: (_data: ForgotPasswordFormSchema) => delay(3000),
+    mutationFn: (_data: ForgotPasswordFormSchema) => delay(1000),
     onSuccess: (_, { email }) => {
       forgotPasswordBottomSheetRef.current?.close();
 
+      router.push('/mfa');
+
       toast.show({
         variant: 'success',
-        label: `Email sent to ${email}`,
-        description: 'Check your inbox to reset your password',
+        label: `OTP sent to ${email}`,
+        description: 'Check your inbox to verify your identity',
         actionLabel: 'Close',
         onActionPress: ({ hide }) => hide(),
       });
@@ -217,9 +221,7 @@ export default function LoginScreen(): React.JSX.Element {
         variant="warning"
         onClose={forgotPasswordReset}
         submitButtonLabel="Send Reset Link"
-        submitButtonProps={{
-          isDisabled: forgotPasswordMutation.isPending,
-        }}
+        submitButtonProps={{ loading: forgotPasswordMutation.isPending }}
         onPressCancel={() => {}}
         onPressSubmit={forgotPasswordHandleSubmit(onSubmitForgotPassword)}
       >
@@ -237,6 +239,7 @@ export default function LoginScreen(): React.JSX.Element {
           prefix={
             <IonIcon name="mail-outline" size={16} className="text-muted" />
           }
+          onSubmitEditing={forgotPasswordHandleSubmit(onSubmitForgotPassword)}
         />
       </BottomSheet.Confirm>
     </KeyboardAwareScrollView>

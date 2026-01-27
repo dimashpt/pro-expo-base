@@ -1,6 +1,7 @@
 export * from './accordion';
 export * from './animated-blur-view';
 export * from './app-text';
+export * from './auth-header';
 export * from './avatar';
 export * from './bottom-sheet';
 export * from './button';
