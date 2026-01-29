@@ -3,7 +3,12 @@ import { JSX } from 'react';
 import { Stack } from 'expo-router';
 
 export default function GuardLayout(): JSX.Element {
-  const SCREENS: ScreenMap[] = [];
+  const SCREENS: ScreenMap[] = [
+    {
+      path: 'error-boundary-demo',
+      headerShown: false,
+    },
+  ];
 
   return (
     <Stack>

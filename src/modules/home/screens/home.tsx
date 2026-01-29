@@ -1,11 +1,13 @@
 import React, { JSX } from 'react';
 import { BackHandler, View } from 'react-native';
 
-import { useFocusEffect } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 
-import { AppText } from '@/components';
+import { AppText, Button } from '@/components';
 
 export default function HomeScreen(): JSX.Element {
+  const router = useRouter();
+
   /**
    * Handle back press to exit app, if not handled, the expo router will throw error:
    * `The action 'GO_BACK' was not handled by any navigator.`
@@ -30,18 +32,14 @@ export default function HomeScreen(): JSX.Element {
   }
 
   return (
-    <View className="bg-background pt-safe flex-1 items-center justify-center">
-      <AppText variant="h1">h1</AppText>
-      <AppText variant="h2">h2</AppText>
-      <AppText variant="h3">h3</AppText>
-      <AppText variant="h4">h4</AppText>
-      <AppText variant="h5">h5</AppText>
-      <AppText variant="h6">h6</AppText>
-      <AppText variant="subtitle">subtitle</AppText>
-      <AppText variant="label">label</AppText>
-      <AppText variant="body">body</AppText>
-      <AppText variant="small">small</AppText>
-      <AppText variant="tiny">tiny</AppText>
+    <View className="bg-background pt-safe flex-1 items-center justify-center gap-6 px-6">
+      <AppText variant="h4">Home</AppText>
+
+      <Button
+        label="Error Boundary Demo"
+        onPress={() => router.push('/(protected)/error-boundary-demo')}
+        className="w-full"
+      />
     </View>
   );
 }

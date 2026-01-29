@@ -22,7 +22,7 @@ import { HeroUINativeProvider } from 'heroui-native';
 import { SafeAreaListener } from 'react-native-safe-area-context';
 import { Uniwind, useCSSVariable } from 'uniwind';
 
-import { DevTools } from '@/components';
+import { DevTools, ErrorBoundary } from '@/components';
 import { SplashScreen as SplashScreenComponent } from '@/components/splash';
 import { useTheme } from '@/hooks';
 import { queryClient } from '@/lib/react-query';
@@ -127,108 +127,111 @@ function App(): React.ReactNode {
   }
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <GestureHandlerRootView>
-        <SafeAreaListener
-          onChange={({ insets }) => Uniwind.updateInsets(insets)}
-          style={{ backgroundColor }}
-        >
-          <KeyboardProvider>
-            <HeroUINativeProvider
-              config={{
-                devInfo: { stylingPrinciples: false },
-                toast: { contentWrapper },
-              }}
-            >
-              <BottomSheetModalProvider>
-                <StatusBar
-                  style={
-                    appColorScheme === 'system'
-                      ? 'auto'
-                      : appColorScheme === 'dark'
-                        ? 'light'
-                        : 'dark'
-                  }
-                />
-                <DevTools />
-                {/* Splash Screen */}
-                <Animated.View
-                  className="absolute inset-0 z-1000"
-                  style={{
-                    transitionProperty: 'opacity',
-                    transitionDuration: '300ms',
-                    transitionTimingFunction: 'ease-out',
-                    opacity: splashFinished ? 0 : 1,
-                  }}
-                  pointerEvents={splashFinished ? 'none' : 'auto'}
-                >
-                  <SplashScreenComponent
-                    key="splashScreen"
-                    onAnimationFinish={handleSplashAnimationFinish}
+    <ErrorBoundary isRoot>
+      <QueryClientProvider client={queryClient}>
+        <GestureHandlerRootView>
+          <SafeAreaListener
+            onChange={({ insets }) => Uniwind.updateInsets(insets)}
+            style={{ backgroundColor }}
+          >
+            <KeyboardProvider>
+              <HeroUINativeProvider
+                config={{
+                  devInfo: { stylingPrinciples: false },
+                  toast: { contentWrapper },
+                }}
+              >
+                <BottomSheetModalProvider>
+                  <StatusBar
+                    style={
+                      appColorScheme === 'system'
+                        ? 'auto'
+                        : appColorScheme === 'dark'
+                          ? 'light'
+                          : 'dark'
+                    }
                   />
-                </Animated.View>
-
-                {/* Main App */}
-                {showMainApp && (
+                  <DevTools />
+                  {/* Splash Screen */}
                   <Animated.View
-                    className="flex-1"
+                    className="absolute inset-0 z-1000"
                     style={{
                       transitionProperty: 'opacity',
                       transitionDuration: '300ms',
-                      transitionTimingFunction: 'ease-in',
-                      opacity: splashFinished ? 1 : 0,
+                      transitionTimingFunction: 'ease-out',
+                      opacity: splashFinished ? 0 : 1,
                     }}
+                    pointerEvents={splashFinished ? 'none' : 'auto'}
                   >
-                    <Stack>
-                      <Stack.Protected
-                        guard={
-                          status === 'loggedOut' && !hasCompletedOnboarding
-                        }
-                      >
-                        <Stack.Screen
-                          name="index"
-                          options={{ headerShown: false }}
-                        />
-                      </Stack.Protected>
-                      <Stack.Protected
-                        guard={
-                          (status === 'loggedOut' || status === 'firstLogin') &&
-                          hasCompletedOnboarding
-                        }
-                      >
-                        <Stack.Screen
-                          name="(auth)"
-                          options={{
-                            headerShown: false,
-                            contentStyle: { backgroundColor },
-                          }}
-                        />
-                      </Stack.Protected>
-                      <Stack.Protected guard={true}>
-                        <Stack.Screen
-                          name="(tabs)"
-                          options={{
-                            headerShown: false,
-                            contentStyle: { backgroundColor },
-                          }}
-                        />
-                        <Stack.Screen
-                          name="(protected)"
-                          options={{
-                            headerShown: false,
-                            contentStyle: { backgroundColor },
-                          }}
-                        />
-                      </Stack.Protected>
-                    </Stack>
+                    <SplashScreenComponent
+                      key="splashScreen"
+                      onAnimationFinish={handleSplashAnimationFinish}
+                    />
                   </Animated.View>
-                )}
-              </BottomSheetModalProvider>
-            </HeroUINativeProvider>
-          </KeyboardProvider>
-        </SafeAreaListener>
-      </GestureHandlerRootView>
-    </QueryClientProvider>
+
+                  {/* Main App */}
+                  {showMainApp && (
+                    <Animated.View
+                      className="flex-1"
+                      style={{
+                        transitionProperty: 'opacity',
+                        transitionDuration: '300ms',
+                        transitionTimingFunction: 'ease-in',
+                        opacity: splashFinished ? 1 : 0,
+                      }}
+                    >
+                      <Stack>
+                        <Stack.Protected
+                          guard={
+                            status === 'loggedOut' && !hasCompletedOnboarding
+                          }
+                        >
+                          <Stack.Screen
+                            name="index"
+                            options={{ headerShown: false }}
+                          />
+                        </Stack.Protected>
+                        <Stack.Protected
+                          guard={
+                            (status === 'loggedOut' ||
+                              status === 'firstLogin') &&
+                            hasCompletedOnboarding
+                          }
+                        >
+                          <Stack.Screen
+                            name="(auth)"
+                            options={{
+                              headerShown: false,
+                              contentStyle: { backgroundColor },
+                            }}
+                          />
+                        </Stack.Protected>
+                        <Stack.Protected guard={true}>
+                          <Stack.Screen
+                            name="(tabs)"
+                            options={{
+                              headerShown: false,
+                              contentStyle: { backgroundColor },
+                            }}
+                          />
+                          <Stack.Screen
+                            name="(protected)"
+                            options={{
+                              headerShown: false,
+                              contentStyle: { backgroundColor },
+                            }}
+                          />
+                        </Stack.Protected>
+                      </Stack>
+                    </Animated.View>
+                  )}
+                </BottomSheetModalProvider>
+              </HeroUINativeProvider>
+            </KeyboardProvider>
+          </SafeAreaListener>
+        </GestureHandlerRootView>
+      </QueryClientProvider>
+    </ErrorBoundary>
   );
 }
 

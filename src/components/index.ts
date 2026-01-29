@@ -1,7 +1,7 @@
 export * from './accordion';
 export * from './animated-blur-view';
 export * from './app-text';
-export * from './auth-header';
+export * from './header';
 export * from './avatar';
 export * from './bottom-sheet';
 export * from './button';
@@ -12,6 +12,7 @@ export * from './coming-soon';
 export * from './devtools';
 export * from './dialog';
 export * from './divider';
+export * from './error-boundary';
 export * from './icon';
 export * from './input-field';
 export * from './menu-list';

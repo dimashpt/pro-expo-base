@@ -9,7 +9,7 @@ import { Resolver, useForm } from 'react-hook-form';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import z from 'zod';
 
-import { AppText, AuthHeader, Button, InputField, IonIcon } from '@/components';
+import { AppText, Button, Header, InputField, IonIcon } from '@/components';
 import { delay } from '@/utils/async';
 
 const resetPasswordFormSchema = z
@@ -69,7 +69,7 @@ export default function ResetPasswordScreen(): React.JSX.Element {
   return (
     <View className="bg-background flex-1">
       {/* Navigation Header */}
-      <AuthHeader />
+      <Header />
 
       <KeyboardAwareScrollView
         keyboardShouldPersistTaps="handled"

@@ -11,9 +11,9 @@ import z from 'zod';
 
 import {
   AppText,
-  AuthHeader,
   BottomSheet,
   Button,
+  Header,
   InputField,
   IonIcon,
 } from '@/components';
@@ -110,7 +110,7 @@ export default function LoginScreen(): React.JSX.Element {
   return (
     <View className="bg-background flex-1">
       {/* Navigation Header */}
-      <AuthHeader showBackButton={false} />
+      <Header showBackButton={false} />
 
       <KeyboardAwareScrollView
         keyboardShouldPersistTaps="handled"

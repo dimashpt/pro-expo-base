@@ -6,7 +6,7 @@ import { useRouter } from 'expo-router';
 import { InputOTP, PressableFeedback, useToast } from 'heroui-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 
-import { AppText, AuthHeader, Button, IonIcon } from '@/components';
+import { AppText, Button, Header, IonIcon } from '@/components';
 import { delay } from '@/utils/async';
 
 interface MFAFormData {
@@ -56,7 +56,7 @@ export default function MFAScreen(): React.JSX.Element {
   return (
     <View className="bg-background flex-1">
       {/* Navigation Header */}
-      <AuthHeader />
+      <Header />
 
       <KeyboardAwareScrollView
         keyboardShouldPersistTaps="handled"
