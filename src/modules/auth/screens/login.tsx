@@ -82,8 +82,10 @@ export default function LoginScreen(): React.JSX.Element {
 
   const forgotPasswordMutation = useMutation({
     mutationFn: (_data: ForgotPasswordFormSchema) => delay(1000),
-    onSuccess: (_, { email }) => {
+    onSuccess: async (_, { email }) => {
       forgotPasswordBottomSheetRef.current?.close();
+
+      await delay(500);
 
       router.push('/mfa');
 

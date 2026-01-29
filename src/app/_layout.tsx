@@ -1,10 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Appearance, Platform, useColorScheme } from 'react-native';
 
 import * as Fonts from '@expo-google-fonts/plus-jakarta-sans';
 import { Stack, useNavigationContainerRef, usePathname } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { setStatusBarStyle, StatusBar } from 'expo-status-bar';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import {
   KeyboardAvoidingView,
@@ -19,6 +17,7 @@ import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import { useTanStackQueryDevTools } from '@rozenite/tanstack-query-plugin';
 import { QueryClientProvider } from '@tanstack/react-query';
 import * as Linking from 'expo-linking';
+import { StatusBar } from 'expo-status-bar';
 import { HeroUINativeProvider } from 'heroui-native';
 import { SafeAreaListener } from 'react-native-safe-area-context';
 import { Uniwind, useCSSVariable } from 'uniwind';
@@ -46,11 +45,9 @@ function App(): React.ReactNode {
   const {
     initializeLanguage,
     theme: appColorScheme,
-    showBetaFeatures,
     hasCompletedOnboarding,
   } = useAppStore();
   const { status } = useAuthStore();
-  const colorScheme = useColorScheme();
   const navigationRef = useNavigationContainerRef();
   const [fontsLoaded] = useFonts(fonts);
 
@@ -92,34 +89,6 @@ function App(): React.ReactNode {
 
     return () => subscription.remove();
   }, []);
-
-  useEffect(() => {
-    const statusbarStyle =
-      appColorScheme === 'system'
-        ? 'auto'
-        : appColorScheme === 'light'
-          ? 'dark'
-          : 'light';
-    const colorScheme = Appearance.getColorScheme();
-    const appTheme =
-      appColorScheme === 'system'
-        ? colorScheme === 'dark'
-          ? 'dark'
-          : 'light'
-        : appColorScheme === 'light'
-          ? 'dark'
-          : 'light';
-
-    // FIXME: Uniwind.setTheme('system') is crashing in Expo SDK 55
-    // Update to previous change after patch in uniwind library (currently 1.2.6)
-    Uniwind.setTheme(
-      Platform.select({ android: appTheme, ios: appColorScheme }) as
-        | 'light'
-        | 'dark'
-        | 'system',
-    );
-    setStatusBarStyle(statusbarStyle);
-  }, [appColorScheme, colorScheme, showBetaFeatures]);
 
   useEffect(() => {
     if (navigationRef && navigationIntegration) {
@@ -173,7 +142,13 @@ function App(): React.ReactNode {
             >
               <BottomSheetModalProvider>
                 <StatusBar
-                  style={appColorScheme === 'dark' ? 'light' : 'dark'}
+                  style={
+                    appColorScheme === 'system'
+                      ? 'auto'
+                      : appColorScheme === 'dark'
+                        ? 'light'
+                        : 'dark'
+                  }
                 />
                 <DevTools />
                 {/* Splash Screen */}

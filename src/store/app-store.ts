@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { Uniwind } from 'uniwind';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
@@ -54,6 +55,8 @@ export const useAppStore = create<AppStore>()(
       },
       setTheme: (payload: ColorScheme): void => {
         set({ theme: payload });
+
+        Uniwind.setTheme(payload);
       },
       setDevtoolsEnabled: (): void => {
         set({ devtoolsEnabled: !get().devtoolsEnabled });

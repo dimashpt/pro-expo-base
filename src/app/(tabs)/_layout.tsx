@@ -1,7 +1,7 @@
 import React, { JSX } from 'react';
 
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { Badge, Icon, Label, VectorIcon } from 'expo-router';
+import Octicons from '@expo/vector-icons/Octicons';
+import { VectorIcon } from 'expo-router';
 import { NativeTabs } from 'expo-router/unstable-native-tabs';
 import { useCSSVariable } from 'uniwind';
 
@@ -18,13 +18,17 @@ export default function TabLayout(): JSX.Element {
       badgeBackgroundColor={dangerColor}
     >
       <NativeTabs.Trigger name="home">
-        <Icon src={<VectorIcon family={Ionicons} name="home" />} />
-        <Label>Home</Label>
-        <Badge>3</Badge>
+        <NativeTabs.Trigger.Icon
+          src={<VectorIcon family={Octicons} name="home-fill" />}
+        />
+        <NativeTabs.Trigger.Label>Home</NativeTabs.Trigger.Label>
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="profile">
-        <Label>Profile</Label>
-        <Icon src={<VectorIcon family={Ionicons} name="person-circle" />} />
+        <NativeTabs.Trigger.Label>Profile</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon
+          src={<VectorIcon family={Octicons} name="person-fill" />}
+        />
+        <NativeTabs.Trigger.Badge>3</NativeTabs.Trigger.Badge>
       </NativeTabs.Trigger>
     </NativeTabs>
   );

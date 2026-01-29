@@ -1,8 +1,7 @@
 import React, { JSX } from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
 
 import { useRouter } from 'expo-router';
-import { Accordion } from 'heroui-native';
 
 import { AppText, Button } from '@/components';
 import { MenuList, MenuListData } from '@/components/menu-list';
@@ -53,25 +52,37 @@ export default function ProfileScreen(): JSX.Element {
       onChange: setPushNotificationsEnabled,
     },
     {
-      title: 'Developer Tools',
-      action: 'switch',
-      description: 'Enable developer options and tools',
-      value: devtoolsEnabled,
-      onChange: setDevtoolsEnabled,
-    },
-    {
       title: 'Clear Cache',
       action: 'press',
       onPress: () => {},
     },
   ];
 
+  const devMenu: MenuListData = [
+    {
+      title: 'Developer Tools',
+      action: 'switch',
+      description: 'Enable developer options and tools',
+      value: devtoolsEnabled,
+      onChange: setDevtoolsEnabled,
+    },
+  ];
+
   return (
-    <ScrollView className="p-xl" contentContainerClassName="gap-lg">
-      <AppText variant="h1">Settings</AppText>
-      <Accordion isCollapsible={false} variant="surface">
+    <ScrollView
+      className="bg-background p-xl"
+      contentContainerClassName="gap-lg"
+    >
+      <View className="gap-md">
+        <AppText variant="h1">Settings</AppText>
         <MenuList menu={menu} />
-      </Accordion>
+      </View>
+
+      <View className="gap-sm">
+        <AppText variant="h5">Developer Settings</AppText>
+        <MenuList menu={devMenu} />
+      </View>
+
       <Button
         label="Logout"
         variant="danger-soft"

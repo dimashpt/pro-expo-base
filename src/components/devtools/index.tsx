@@ -22,7 +22,7 @@ import { useAppStore } from '@/store/app-store';
 
 export function DevTools(): React.ReactNode {
   // Configure environment variables to validate
-  const { showDevTools, showBetaFeatures } = useAppStore();
+  const { devtoolsEnabled } = useAppStore();
   const requiredEnvVars = createEnvVarConfig([
     envVar('APP_VARIANT').exists(),
     envVar('EXPO_PUBLIC_API_URL').exists(),
@@ -119,10 +119,7 @@ export function DevTools(): React.ReactNode {
   ];
 
   // Hide devtools if developer features are not enabled
-  if (!showBetaFeatures) return null;
-
-  // Hide devtools if not enabled in staging or development environment
-  if (!showDevTools) return null;
+  if (!devtoolsEnabled) return null;
 
   return (
     <FloatingDevTools
