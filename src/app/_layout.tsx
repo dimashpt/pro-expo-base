@@ -18,11 +18,10 @@ import { useTanStackQueryDevTools } from '@rozenite/tanstack-query-plugin';
 import { QueryClientProvider } from '@tanstack/react-query';
 import * as Linking from 'expo-linking';
 import { StatusBar } from 'expo-status-bar';
-import { HeroUINativeProvider } from 'heroui-native';
 import { SafeAreaListener } from 'react-native-safe-area-context';
 import { Uniwind, useCSSVariable } from 'uniwind';
 
-import { DevTools, ErrorBoundary } from '@/components';
+import { DevTools, ErrorBoundary, HeroUINativeProvider } from '@/components';
 import { SplashScreen as SplashScreenComponent } from '@/components/splash';
 import { useTheme } from '@/hooks';
 import { queryClient } from '@/lib/react-query';

@@ -9,7 +9,6 @@ import {
 
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { Button, cn, PressableFeedback } from 'heroui-native';
 import Animated, {
   interpolate,
   interpolateColor,
@@ -19,8 +18,9 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useCSSVariable } from 'uniwind';
 
-import { AppText, IonIcon } from '@/components';
+import { AppText, Button, IonIcon, PressableFeedback } from '@/components';
 import { useAppStore } from '@/store/app-store';
+import { cn } from '@/utils/ui';
 
 const { width } = Dimensions.get('window');
 

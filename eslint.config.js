@@ -98,12 +98,22 @@ export default [
               message:
                 'Direct import from @/assets/icons is not allowed. Use the <Icon /> component from @/components/icon instead.',
             },
+            {
+              name: 'heroui-native',
+              message:
+                'Direct import from heroui-native is not allowed. Use components from @/components instead.',
+            },
           ],
           patterns: [
             {
               group: ['@/assets/icons/*.svg'],
               message:
                 'Direct import of SVG icons is not allowed. Use the <Icon /> component from @/components/icon instead.',
+            },
+            {
+              group: ['heroui-native/*'],
+              message:
+                'Direct import from heroui-native is not allowed. Use components from @/components instead.',
             },
           ],
         },

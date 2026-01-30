@@ -3,10 +3,17 @@ import { View } from 'react-native';
 
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
-import { InputOTP, PressableFeedback, useToast } from 'heroui-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 
-import { AppText, Button, Header, IonIcon } from '@/components';
+import {
+  AppText,
+  Button,
+  Header,
+  InputOTP,
+  IonIcon,
+  PressableFeedback,
+  useToast,
+} from '@/components';
 import { delay } from '@/utils/async';
 
 interface MFAFormData {

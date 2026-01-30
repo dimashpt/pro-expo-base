@@ -4,12 +4,19 @@ import { View } from 'react-native';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
-import { Popover, useToast } from 'heroui-native';
 import { Resolver, useForm } from 'react-hook-form';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
 import z from 'zod';
 
-import { AppText, Button, Header, InputField, IonIcon } from '@/components';
+import {
+  AppText,
+  Button,
+  Header,
+  InputField,
+  IonIcon,
+  Popover,
+  useToast,
+} from '@/components';
 import { delay } from '@/utils/async';
 
 const resetPasswordFormSchema = z
