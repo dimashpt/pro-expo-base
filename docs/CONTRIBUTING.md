@@ -1,6 +1,6 @@
 # Contributing
 
-Thank you for your interest in contributing to the mobile app! This guide will help you understand our development process and contribution guidelines.
+Thank you for your interest in contributing to the Expo Base Template! This guide will help you understand our development process and contribution guidelines.
 
 ## Table of Contents
 
@@ -174,25 +174,24 @@ We follow the [Conventional Commits](https://www.conventionalcommits.org/) speci
 
 Use the feature or module name as the scope:
 
-- `attendance`
-- `leave`
-- `overtime`
-- `approval`
 - `auth`
+- `home`
 - `profile`
-- `notification`
 - `api`
 - `ui`
+- `navigation`
+- `storage`
+- `i18n`
 - etc.
 
 ### Examples
 
 ```bash
 # Feature with scope
-git commit -m "feat(attendance): add face recognition for check-in"
+git commit -m "feat(auth): add social login support"
 
 # Bug fix
-git commit -m "fix(login): resolve token expiration issue"
+git commit -m "fix(profile): resolve avatar upload issue"
 
 # Documentation
 git commit -m "docs: update API integration guide"
@@ -203,11 +202,11 @@ git commit -m "feat(api)!: change authentication flow
 BREAKING CHANGE: API endpoints now require Bearer token"
 
 # Multiple paragraphs
-git commit -m "feat(leave): add annual leave balance tracking
+git commit -m "feat(profile): add user preferences
 
-- Add balance calculation
-- Display remaining days
-- Show usage history
+- Add theme selection
+- Add language selection
+- Add notification preferences
 
 Closes #123"
 ```
@@ -255,7 +254,7 @@ Closes #123"
 
 1. **Use a descriptive title**
    - Follow the same format as commit messages
-   - Example: `feat(attendance): add face recognition`
+   - Example: `feat(auth): add OAuth authentication`
 
 2. **Fill out the PR template**
    - Description of changes
@@ -341,11 +340,11 @@ Related to #456
 
 ### Naming Conventions
 
-- **Components**: PascalCase (`AttendanceCard.tsx`)
-- **Hooks**: camelCase with `use` prefix (`useAttendance.ts`)
+- **Components**: PascalCase (`UserCard.tsx`)
+- **Hooks**: camelCase with `use` prefix (`useAuth.ts`)
 - **Utils**: camelCase (`formatDate.ts`)
 - **Constants**: UPPER_SNAKE_CASE (`MAX_RETRY_COUNT`)
-- **Types/Interfaces**: PascalCase (`User`, `AttendanceRecord`)
+- **Types/Interfaces**: PascalCase (`User`, `Profile`)
 
 ### File Organization
 
@@ -465,4 +464,4 @@ By contributing, you agree that your contributions will be licensed under the sa
 
 ---
 
-**Thank you for contributing to the mobile app! 🎉**
+**Thank you for contributing to the Expo Base Template! 🎉**

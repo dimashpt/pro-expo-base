@@ -1,30 +1,29 @@
 # Project Structure
 
-This document describes the organization and structure of the mobile app codebase.
+This document describes the organization and structure of the Expo Base Template codebase.
 
 ## Directory Overview
 
 ```
-mobile-app/
+expo-base/
 ├── src/                      # Source code directory
-│   ├── app/                  # Main application screens (Expo Router)
-│   ├── components/           # Reusable UI components
-│   ├── screens/              # Screen components organized by feature
-│   ├── assets/               # Static assets
+│   ├── app/                  # Application routes (Expo Router)
+│   ├── modules/              # Feature modules (auth, home, profile)
+│   ├── components/           # Shared UI components
+│   ├── assets/               # Static assets (images, fonts, styles)
 │   ├── constants/            # App constants and configurations
 │   ├── hooks/                # Custom React hooks
 │   ├── @types/               # TypeScript type definitions
 │   ├── lib/                  # Core libraries and providers
-│   ├── locales/              # Internationalization files
-│   ├── services/             # API services and repositories
-│   ├── store/                # State management
+│   ├── locales/              # Internationalization files (i18next)
+│   ├── store/                # Global state management (Zustand)
 │   ├── theme/                # Design system and theming
 │   └── utils/                # Utility functions
 ├── scripts/                  # Build and utility scripts
-├── android/                  # Android platform files
-├── ios/                      # iOS platform files
-├── coverage/                 # Test coverage reports
-├── dist/                     # Build output directory
+├── android/                  # Android native code
+├── ios/                      # iOS native code
+├── docs/                     # Documentation
+├── .storybook/               # Storybook configuration
 └── node_modules/             # Dependencies
 ```
 
@@ -40,20 +39,15 @@ src/app/
 ├── (stack)/                  # Stack-based navigation
 │   ├── (guarded)/            # Authenticated screens
 │   │   ├── _layout.tsx       # Auth guard layout
-│   │   ├── approval/         # Approval screens
-│   │   ├── attendance/       # Attendance screens
-│   │   ├── leave/            # Leave management screens
-│   │   ├── overtime/         # Overtime screens
-│   │   └── ...               # Other authenticated features
+│   │   └── ...               # Protected feature screens
 │   └── (unguarded)/          # Public screens
 │       ├── login.tsx         # Login screen
-│       ├── forgot-password.tsx
-│       └── ...
+│       ├── register.tsx      # Registration screen
+│       └── forgot-password.tsx
 └── (tab)/                    # Tab-based navigation
     ├── _layout.tsx           # Tab navigator layout
     ├── index.tsx             # Home tab
-    ├── attendance.tsx        # Attendance tab
-    ├── approvals.tsx         # Approvals tab
+    ├── explore.tsx           # Explore tab (example)
     └── profile.tsx           # Profile tab
 ```
 
@@ -89,25 +83,32 @@ Each component folder typically contains:
 - `types.ts` - TypeScript types (if complex)
 - `styles.ts` - Component styles (if using separate file)
 
-### `/src/screens` - Feature Screens
+### `/src/modules` - Feature Modules
 
-Screen components organized by feature domain:
+Feature-based modular architecture. Each module contains its own screens, components, hooks, and logic:
 
 ```
-src/screens/
-├── attendance/
-│   ├── AttendanceHistoryScreen.tsx
-│   ├── AttendanceDetailScreen.tsx
-│   └── CheckInScreen.tsx
-├── leave/
-│   ├── LeaveListScreen.tsx
-│   ├── LeaveRequestScreen.tsx
-│   └── LeaveDetailScreen.tsx
-├── approval/
-├── overtime/
-├── payslip/
-└── ...
+src/modules/
+├── auth/                     # Authentication module
+│   ├── screens/              # Auth screens
+│   ├── components/           # Auth-specific components
+│   ├── hooks/                # Auth hooks
+│   └── types.ts              # Auth types
+├── home/                     # Home/Dashboard module
+│   ├── screens/
+│   ├── components/
+│   └── hooks/
+└── profile/                  # User profile module
+    ├── screens/
+    ├── components/
+    └── hooks/
 ```
+
+**Module Benefits:**
+- Self-contained features
+- Easy to scale and maintain
+- Clear separation of concerns
+- Reusable across projects
 
 ### `/src/assets` - Static Assets
 
@@ -129,29 +130,26 @@ src/assets/
     └── ...
 ```
 
-### `/src/services` - API Services
+### `/src/lib` - Core Libraries
 
-API integration layer using repository pattern:
+Core application libraries and configurations:
 
 ```
-src/services/
-├── approval/
-│   ├── index.ts              # Service exports
-│   ├── repository.ts         # API calls
-│   └── types.ts              # Type definitions
-├── attendance/
-│   ├── index.ts
-│   ├── repository.ts
-│   └── types.ts
-├── auth/
-├── leave/
-└── ...
+src/lib/
+├── api/                      # API client configuration
+│   └── client.ts             # Axios instance
+├── i18n/                     # Internationalization setup
+│   └── index.ts              # i18next configuration
+├── query/                    # React Query setup
+│   └── client.ts             # Query client
+└── providers/                # App providers
+    └── index.tsx             # Combined providers
 ```
 
-**Service Structure:**
-- `repository.ts` - Axios API calls
-- `types.ts` - Request/response types
-- `index.ts` - Service hooks using React Query
+**API Integration:**
+- API calls are typically defined within modules or in `src/lib/api`
+- React Query hooks for data fetching
+- Axios for HTTP requests
 
 ### `/src/store` - State Management
 
@@ -216,14 +214,12 @@ Translation files for multi-language support:
 ```
 src/locales/
 ├── en/                       # English translations
-│   ├── common.json
-│   ├── attendance.json
-│   ├── leave.json
+│   ├── common.json           # Common translations
+│   ├── auth.json             # Auth module translations
 │   └── ...
 └── id/                       # Indonesian translations
     ├── common.json
-    ├── attendance.json
-    ├── leave.json
+    ├── auth.json
     └── ...
 ```
 
@@ -233,12 +229,12 @@ Reusable React hooks:
 
 ```
 src/hooks/
-├── useAuth.ts                # Authentication hook
-├── usePermissions.ts         # Permission checking
-├── useLocation.ts            # Location services
-├── useCamera.ts              # Camera access
-└── ...
+├── useColorScheme.ts         # Theme/color scheme
+├── useThemeColor.ts          # Theme color utilities
+└── ...                       # Other shared hooks
 ```
+
+**Note:** Module-specific hooks are located within their respective module directories.
 
 ### `/src/utils` - Utility Functions
 
@@ -268,12 +264,13 @@ src/constants/
 ## Build and Configuration Files
 
 ```
-mobile-app/
+expo-base/
 ├── app.config.ts             # Expo app configuration
-├── babel.config.js           # Babel configuration
 ├── metro.config.js           # Metro bundler config
 ├── tsconfig.json             # TypeScript config
-├── eslint.config.js          # ESLint config
+├── eslint.config.js          # ESLint config (ESLint 9)
+├── jest.config.ts            # Jest testing config
+├── tailwind.config.js        # Tailwind CSS config
 ├── package.json              # Dependencies and scripts
 ├── eas.json                  # EAS Build configuration
 └── .env.local                # Environment variables (gitignored)

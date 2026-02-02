@@ -1,44 +1,47 @@
 # Development Guide
 
-This guide covers the development workflow, technologies, and best practices for the mobile app.
+This guide covers the development workflow, technologies, and best practices for the Expo Base Template.
 
 ## Technology Stack
 
 ### Core Technologies
 
-- **Framework**: React Native with Expo SDK 54
-- **Language**: TypeScript
+- **Framework**: React Native 0.83 with Expo SDK 55 (Preview)
+- **Language**: TypeScript 5.9
 - **Navigation**: Expo Router (file-based routing)
-- **State Management**: Zustand
+- **State Management**: Zustand 5.0
 - **Package Manager**: Bun
+- **React**: React 19.2
 
 ### UI & Styling
 
-- **Styling**: Uniwind (Tailwind CSS for React Native)
-- **UI Components**: React Native Paper
-- **Bottom Sheets**: @gorhom/bottom-sheet
-- **Animations**: React Native Reanimated, Lottie
-- **Variant Management**: Tailwind Variants (tailwind-variants)
+- **Styling**: Uniwind 1.2 (Tailwind CSS for React Native) + TailwindCSS 4.1
+- **UI Components**: HeroUI Native 1.0 (Beta)
+- **Bottom Sheets**: @gorhom/bottom-sheet 5.2
+- **Animations**: React Native Reanimated 4.2, Lottie 7.3
+- **Gestures**: React Native Gesture Handler 2.30
+- **Keyboard**: React Native Keyboard Controller 1.20
+- **Variant Management**: Tailwind Variants 3.2
 
 ### Data & API
 
-- **API Client**: Axios
-- **Data Fetching**: TanStack React Query (React Query)
-- **Form Handling**: React Hook Form
-- **Validation**: Zod
+- **API Client**: Axios 1.13
+- **Data Fetching**: TanStack React Query 5.90
+- **Form Handling**: React Hook Form 7.71
+- **Validation**: Zod 4.3
+- **Storage**: MMKV 4.1
 
 ### Features & Integrations
 
-- **Maps**: React Native Maps
-- **Camera**: React Native Vision Camera with Face Detection
-- **Internationalization**: i18next with react-i18next
-- **Error Tracking**: Sentry
+- **Internationalization**: i18next 25.8 with react-i18next 16.5
+- **Error Tracking**: Sentry 7.10
 - **Performance**: React Native Performance monitoring
+- **Nitro Modules**: React Native Nitro Modules 0.33
 
 ### Testing
 
-- **Test Runner**: Jest
-- **Testing Library**: React Native Testing Library
+- **Test Runner**: Jest 30.2
+- **Testing Library**: React Native Testing Library 13.3
 - **Coverage**: Istanbul (built into Jest)
 
 ## Available Scripts
@@ -149,8 +152,8 @@ Use [Conventional Commits](https://www.conventionalcommits.org/) format:
 ```bash
 # Format: <type>(<scope>): <description>
 
-git commit -m "feat(attendance): add face recognition"
-git commit -m "fix(login): resolve authentication issue"
+git commit -m "feat(auth): add social login support"
+git commit -m "fix(profile): resolve avatar upload issue"
 git commit -m "docs: update API documentation"
 ```
 
@@ -213,13 +216,13 @@ import React from 'react';
 import { View, Text } from 'react-native';
 
 // 1. Define props interface
-interface AttendanceCardProps {
-  attendance: Attendance;
+interface UserCardProps {
+  user: User;
   onPress?: () => void;
 }
 
 // 2. Define component
-export function AttendanceCard({ attendance, onPress }: AttendanceCardProps) {
+export function UserCard({ user, onPress }: UserCardProps) {
   // 3. Hooks
   const { t } = useTranslation();
 
@@ -231,7 +234,7 @@ export function AttendanceCard({ attendance, onPress }: AttendanceCardProps) {
   // 5. Render
   return (
     <View>
-      <Text>{t('attendance.title')}</Text>
+      <Text>{t('user.name')}</Text>
     </View>
   );
 }
@@ -311,25 +314,23 @@ Colors, spacing, and other design tokens are defined in `src/assets/styles/globa
 ```typescript
 // repository.ts
 import { api } from '@/lib/api';
-import type { AttendanceResponse } from './types';
+import type { UserResponse } from './types';
 
-export const attendanceRepository = {
-  getAttendanceHistory: async (params: { month: number; year: number }) => {
-    const { data } = await api.get<AttendanceResponse>('/attendance/history', {
-      params,
-    });
+export const userRepository = {
+  getUserProfile: async (userId: string) => {
+    const { data } = await api.get<UserResponse>(`/users/${userId}`);
     return data;
   },
 };
 
 // index.ts (hooks)
 import { useQuery } from '@tanstack/react-query';
-import { attendanceRepository } from './repository';
+import { userRepository } from './repository';
 
-export function useAttendanceHistory(month: number, year: number) {
+export function useUserProfile(userId: string) {
   return useQuery({
-    queryKey: ['attendance', 'history', month, year],
-    queryFn: () => attendanceRepository.getAttendanceHistory({ month, year }),
+    queryKey: ['user', 'profile', userId],
+    queryFn: () => userRepository.getUserProfile(userId),
   });
 }
 ```
@@ -495,10 +496,11 @@ function MyComponent() {
   return <Text>{t('attendance.checkIn')}</Text>;
 }
 
-// In locale file (src/locales/en/attendance.json)
+// In locale file (src/locales/en/common.json)
 {
-  "checkIn": "Check In",
-  "checkOut": "Check Out"
+  "welcome": "Welcome",
+  "login": "Login",
+  "logout": "Logout"
 }
 ```
 

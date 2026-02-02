@@ -1,10 +1,10 @@
-# Mobile App
+# Expo Base Template
 
 <div align="center">
 
-**A comprehensive React Native mobile application for employee management and HR operations**
+**A production-ready React Native mobile application template built with modern best practices**
 
-Built with Expo, TypeScript, and React Native
+Built with Expo SDK 55, TypeScript, and React Native's New Architecture
 
 [Features](#features) • [Quick Start](#quick-start) • [Documentation](#documentation) • [Tech Stack](#tech-stack)
 
@@ -14,19 +14,20 @@ Built with Expo, TypeScript, and React Native
 
 ## 📱 About
 
-This is a comprehensive HR mobile application that enables employees to manage their work-related activities efficiently. Built with modern technologies and best practices, it provides a seamless experience for both employees and managers.
+This is a comprehensive Expo React Native base template designed to kickstart your mobile app development with industry best practices and modern architecture. It comes pre-configured with essential features, robust tooling, and a scalable project structure.
 
 ### Features
 
-- **👥 Attendance Management** - Clock in/out with face recognition, attendance history, and requests
-- **🏖️ Leave Management** - Submit, track, and manage leave requests
-- **⏰ Overtime Requests** - Request and manage overtime hours
-- **🔄 Shift Changes** - Request and approve shift modifications
-- **✅ Approval Workflows** - Comprehensive approval request management
-- **💰 Payslip Access** - View and download payslips securely
-- **📊 Performance Appraisals** - Track and manage performance reviews
-- **🔔 Notifications** - Real-time updates and alerts
-- **🌍 Multi-language** - Support for English and Indonesian
+- **� Authentication Module** - Complete auth flow with login, registration, and password reset
+- **� Home Module** - Dashboard and main navigation structure
+- **👤 Profile Module** - User profile management and settings
+- **🎨 UI Component Library** - Pre-built components with HeroUI Native
+- **🌍 Internationalization** - Multi-language support with i18next (English & Indonesian)
+- **� Type-Safe Navigation** - File-based routing with Expo Router and typed routes
+- **� State Management** - Zustand for global state, React Query for server state
+- **🎭 Storybook Integration** - Component development and visual testing
+- **✅ Testing Setup** - Jest and React Native Testing Library configured
+- **🔄 CI/CD Ready** - EAS Build and Submit configurations included
 
 ## 🚀 Quick Start
 
@@ -35,13 +36,13 @@ Get up and running in minutes:
 ```bash
 # Clone the repository
 git clone <repository-url>
-cd mobile-app
+cd expo-base
 
 # Install dependencies
 bun install
 
 # Start development server
-bun start
+bun dev
 
 # Run on your platform
 bun ios       # iOS Simulator
@@ -81,45 +82,66 @@ Complete documentation is available in the `/docs` directory:
 
 ### Core Technologies
 
-- **Framework**: React Native with Expo SDK 54
-- **Language**: TypeScript
+- **Framework**: React Native 0.83 with Expo SDK 55 (Preview)
+- **Language**: TypeScript 5.9
 - **Navigation**: Expo Router (file-based routing)
-- **State Management**: Zustand
-- **Storage**: MMKV
-- **Styling**: Uniwind (Tailwind CSS for React Native)
+- **State Management**: Zustand 5.0
+- **Storage**: MMKV 4.1
+- **Styling**: Uniwind 1.2 (Tailwind CSS for React Native) + TailwindCSS 4.1
 - **Package Manager**: Bun
+- **React**: React 19.2
 
 ### Key Features
 
-- **New Architecture**: React Native's latest architecture (Fabric)
+- **New Architecture**: React Native's latest architecture (Fabric & Bridgeless)
+- **React Compiler**: Experimental React Compiler enabled
 - **Typed Routes**: Type-safe navigation with Expo Router
+- **Nitro Modules**: React Native Nitro Modules for native performance
 
 ### Libraries & Tools
 
-- **Data Fetching**: TanStack React Query (React Query) with Axios
-- **Form Handling**: React Hook Form with Zod validation
-- **UI Components**: React Native Paper, Bottom Sheet
-- **Maps**: React Native Maps
-- **Camera**: React Native Vision Camera with Face Detection
-- **Internationalization**: i18next with react-i18next
-- **Animations**: React Native Reanimated, Lottie
-- **Testing**: Jest with React Native Testing Library
-- **Error Tracking**: Sentry
+- **UI Components**: HeroUI Native 1.0 (Beta)
+- **Data Fetching**: TanStack React Query 5.90 with Axios 1.13
+- **Form Handling**: React Hook Form 7.71 with Zod 4.3 validation
+- **Animations**: React Native Reanimated 4.2, Lottie 7.3
+- **Gestures**: React Native Gesture Handler 2.30
+- **Keyboard**: React Native Keyboard Controller 1.20
+- **Internationalization**: i18next 25.8 with react-i18next 16.5
+- **Testing**: Jest 30.2 with React Native Testing Library 13.3
+- **Error Tracking**: Sentry 7.10
 - **Performance**: React Native Performance monitoring
+- **Development**: Storybook 10.1 for component development
 
 ## 📱 App Variants
 
-The app supports three build variants:
+The app supports three build variants configured via environment variables:
 
-| Variant | Purpose | Bundle ID | Status |
-|---------|---------|-----------|--------|
-| **Development** | Internal testing | `com.waizly.app.dev` | 🔧 Debug enabled |
-| **Preview** | Staging/QA | `com.waizly.app.preview` | 🧪 Testing |
-| **Production** | App Store release | `com.waizly.app.id` | ✅ Production |
+| Variant | Purpose | Bundle ID Pattern | Status |
+|---------|---------|-------------------|--------|
+| **Development** | Internal testing | `{APP_BUNDLE_ID}.dev` | 🔧 Debug enabled |
+| **Preview** | Staging/QA | `{APP_BUNDLE_ID}.preview` | 🧪 Testing |
+| **Production** | App Store release | `{APP_BUNDLE_ID}` | ✅ Production |
 
-Each variant has unique icons, configurations, and environment settings.
+Each variant has unique icons, configurations, and environment settings. Configure via `.env.local` file.
 
 ## 🎯 Project Highlights
+
+### Modular Architecture
+
+The project follows a **feature-based modular structure**:
+
+```
+src/
+├── modules/
+│   ├── auth/          # Authentication module
+│   ├── home/          # Home/Dashboard module
+│   └── profile/       # User profile module
+├── components/        # Shared UI components
+├── hooks/            # Custom React hooks
+├── lib/              # Core libraries & utilities
+├── store/            # Global state management
+└── theme/            # Design system & theming
+```
 
 ### File-based Routing
 
@@ -128,7 +150,7 @@ Using **Expo Router** for intuitive, file-based routing:
 ```
 src/app/
 ├── (stack)/
-│   ├── (guarded)/    # Protected routes
+│   ├── (guarded)/    # Protected routes (requires auth)
 │   └── (unguarded)/  # Public routes
 └── (tab)/            # Bottom tab navigation
 ```
@@ -141,22 +163,24 @@ Full TypeScript coverage with:
 - Type-safe navigation with typed routes
 - Zod schemas for runtime validation
 
-## � Project Status
+## 📊 Project Status
 
-- **Version**: See [package.json](./package.json)
-- **License**: Proprietary - WZ Technology
-- **Repository**: Private
+- **Version**: 0.1.0
+- **Expo SDK**: 55.0 (Preview)
+- **React Native**: 0.83.1
+- **License**: See [LICENSE](./LICENSE)
 
 ## 🤝 Contributing
 
-We welcome contributions! Please read our [Contributing Guide](./docs/CONTRIBUTING.md) for:
+This is a base template project. When using this template for your own project:
 
-- Development workflow
-- Commit conventions (Conventional Commits)
-- Pull request process
-- Code style guidelines
+- Follow the established project structure
+- Maintain TypeScript strict mode
+- Use Conventional Commits for commit messages
+- Write tests for new features
+- Update documentation as needed
 
-### Quick Contribution Flow
+### Development Workflow
 
 ```bash
 # Create a feature branch
@@ -165,6 +189,9 @@ git checkout -b feature/your-feature-name
 # Make changes and test
 bun test
 
+# Lint your code
+bun lint
+
 # Commit with conventional commits
 git commit -m "feat: add new feature"
 
@@ -172,32 +199,35 @@ git commit -m "feat: add new feature"
 git push origin feature/your-feature-name
 ```
 
+See [Contributing Guide](./docs/CONTRIBUTING.md) for detailed guidelines.
+
 ## 🆘 Support & Resources
 
-### Internal Resources
+### Documentation
 
 - 📖 [Complete Documentation](./docs/)
-- 🐛 [GitHub Issues](../../issues)
-- 💬 Team Communication Channels
+- � [Getting Started Guide](./docs/GETTING_STARTED.md)
+- 🏗️ [Project Structure](./docs/PROJECT_STRUCTURE.md)
+- � [Development Guide](./docs/DEVELOPMENT.md)
 
 ### External Resources
 
 - [Expo Documentation](https://docs.expo.dev/)
 - [React Native Documentation](https://reactnative.dev/)
 - [TypeScript Documentation](https://www.typescriptlang.org/docs/)
+- [Expo Router Documentation](https://docs.expo.dev/router/introduction/)
+- [HeroUI Native Documentation](https://heroui.com/)
 
 ## 📄 License
 
-This project is proprietary software owned by **WZ Technology**. All rights reserved.
-
-**Note**: This is a private repository. Please ensure you have proper access permissions before contributing.
+See the [LICENSE](./LICENSE) file for details.
 
 ---
 
 <div align="center">
 
-**Built with ❤️ by WZ Technology**
+**Built with ❤️ using Expo and React Native**
 
-[Documentation](./docs/) • [Issues](../../issues) • [Changelog](./docs/CHANGELOG.md)
+[Documentation](./docs/) • [Getting Started](./docs/GETTING_STARTED.md)
 
 </div>

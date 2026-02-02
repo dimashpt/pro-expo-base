@@ -1,6 +1,6 @@
 # Configuration
 
-This document covers environment variables, app configuration, and platform-specific settings for the mobile app.
+This document covers environment variables, app configuration, and platform-specific settings for the Expo Base Template.
 
 ## Environment Variables
 
@@ -11,14 +11,20 @@ Environment variables are managed using `.env.local` file in the root directory.
 Create a `.env.local` file with the following variables:
 
 ```env
-# Google Maps API Key (required for maps functionality)
-EXPO_PUBLIC_GOOGLE_MAPS_API_KEY=your_google_maps_api_key
+# App Configuration
+APP_NAME=YourAppName
+APP_BUNDLE_ID=com.yourcompany.app
+APP_VARIANT=dev  # dev | preview | production
+APP_SCHEME=yourapp
 
-# Google Services configuration file path
-GOOGLE_SERVICES_JSON=./google-services.json
+# Expo Configuration
+EXPO_SLUG=your-app-slug
+EXPO_PROJECT_ID=your-expo-project-id
+EXPO_OWNER=your-expo-username
 
-# App variant for different build configurations
-APP_VARIANT=development  # development | preview | production
+# Optional: Add your API keys and service configurations
+# EXPO_PUBLIC_API_URL=https://api.yourapp.com
+# EXPO_PUBLIC_GOOGLE_MAPS_API_KEY=your_google_maps_api_key
 ```
 
 ### Environment Variable Types
@@ -52,22 +58,31 @@ const googleServicesJson = process.env.GOOGLE_SERVICES_JSON;
 - Use different API keys for development/production
 - Rotate API keys regularly
 
-### Setting Up Google Maps API Key
+### Optional: Third-Party Services
 
+Depending on your app requirements, you may need to configure:
+
+#### Google Maps (Optional)
 1. Go to [Google Cloud Console](https://console.cloud.google.com/)
 2. Create a new project or select existing one
-3. Enable the following APIs:
-   - Maps SDK for Android
-   - Maps SDK for iOS
-   - Places API (if using place search)
-4. Create credentials (API Key)
-5. Restrict the API key:
-   - **Android**: Add your app's package name and SHA-1 certificate fingerprint
-   - **iOS**: Add your app's bundle identifier
-6. Add the key to `.env.local`:
+3. Enable Maps SDK for Android/iOS
+4. Create API credentials
+5. Add to `.env.local`:
    ```env
    EXPO_PUBLIC_GOOGLE_MAPS_API_KEY=AIzaSy...
    ```
+
+#### Firebase (Optional)
+1. Create a Firebase project
+2. Download `google-services.json` (Android) and `GoogleService-Info.plist` (iOS)
+3. Place in the root directory
+4. Configure in `app.config.ts`
+
+#### Sentry (Optional)
+Error tracking is pre-configured. To enable:
+1. Create a Sentry account
+2. Add your auth token to environment variables
+3. Update organization and project in `app.config.ts`
 
 ## App Configuration
 
@@ -77,16 +92,16 @@ The main app configuration is in `app.config.ts`. This file is TypeScript-based 
 
 ```typescript
 // app.config.ts
-const VERSION = '2.3.0';           // App version (semver)
-const BUILD_NUMBER = 45;            // Incremental build number
+const APP_VERSION = '0.1.0';        // App version (semver)
+const APP_BUILD_NUMBER = 1;         // Incremental build number
 
 export default {
-  version: VERSION,
+  version: APP_VERSION,
   ios: {
-    buildNumber: BUILD_NUMBER.toString(),
+    buildNumber: APP_BUILD_NUMBER.toString(),
   },
   android: {
-    versionCode: BUILD_NUMBER,
+    versionCode: APP_BUILD_NUMBER,
   },
 };
 ```
@@ -102,22 +117,22 @@ export default {
 The app supports three variants for different environments:
 
 ```typescript
-const APP_VARIANT = process.env.APP_VARIANT || 'development';
+const APP_VARIANT = process.env.APP_VARIANT || 'dev';
 
 const variants = {
-  development: {
-    name: 'App Dev',
-    bundleIdentifier: 'com.waizly.app.dev',
+  dev: {
+    name: 'YourApp Dev',
+    bundleIdentifier: 'com.yourcompany.app.dev',
     icon: './src/assets/images/icon-ios-dev.icon',
   },
   preview: {
-    name: 'App Preview',
-    bundleIdentifier: 'com.waizly.app.preview',
+    name: 'YourApp Preview',
+    bundleIdentifier: 'com.yourcompany.app.preview',
     icon: './src/assets/images/icon-ios-preview.icon',
   },
   production: {
-    name: 'Mobile App',
-    bundleIdentifier: 'com.waizly.app.id',
+    name: 'YourApp',
+    bundleIdentifier: 'com.yourcompany.app',
     icon: './src/assets/images/icon-ios.icon',
   },
 };
@@ -139,17 +154,13 @@ ios: {
   bundleIdentifier: getBundleIdentifier(),
   supportsTablet: true,
   infoPlist: {
-    NSCameraUsageDescription: 'Camera access for attendance check-in',
-    NSLocationWhenInUseUsageDescription: 'Location access for attendance tracking',
-    // ... other permissions
+    NSCameraUsageDescription: 'Camera access is required for profile photos',
+    NSPhotoLibraryUsageDescription: 'Photo library access for selecting images',
+    // Add other permissions as needed
   },
   associatedDomains: [
-    'applinks:app.example.com',
-    'applinks:*.app.example.com',
+    'applinks:yourapp.com',
   ],
-  config: {
-    googleMapsApiKey: process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
-  },
 }
 ```
 
@@ -159,7 +170,6 @@ ios: {
 - **supportsTablet**: Enable iPad support
 - **infoPlist**: iOS-specific permissions and settings
 - **associatedDomains**: Universal Links configuration
-- **config.googleMapsApiKey**: Google Maps API key for iOS
 
 #### Android Configuration
 
@@ -167,15 +177,13 @@ ios: {
 android: {
   versionCode: BUILD_NUMBER,
   package: getPackageName(),
+  edgeToEdgeEnabled: true,
   adaptiveIcon: {
-    foregroundImage: './src/assets/images/adaptive-icon.png',
+    foregroundImage: './src/assets/images/icon-android.png',
     backgroundColor: '#FFFFFF',
   },
   permissions: [
-    'CAMERA',
-    'ACCESS_FINE_LOCATION',
-    'ACCESS_COARSE_LOCATION',
-    // ... other permissions
+    // Add required permissions for your app
   ],
   intentFilters: [
     {
@@ -184,37 +192,32 @@ android: {
       data: [
         {
           scheme: 'https',
-          host: 'app.example.com',
-          pathPrefix: '/reset-password',
+          host: 'yourapp.com',
+          pathPrefix: '/auth/reset-password',
         },
       ],
       category: ['BROWSABLE', 'DEFAULT'],
     },
   ],
-  config: {
-    googleMaps: {
-      apiKey: process.env.EXPO_PUBLIC_GOOGLE_MAPS_API_KEY,
-    },
-  },
 }
 ```
 
 **Key Settings:**
 - **versionCode**: Build version number (integer)
 - **package**: Unique app identifier (reverse domain)
+- **edgeToEdgeEnabled**: Enable edge-to-edge display
 - **adaptiveIcon**: Adaptive icon for Android 8+
 - **permissions**: Required Android permissions
 - **intentFilters**: App Links configuration
-- **config.googleMaps.apiKey**: Google Maps API key for Android
 
 ### Expo Configuration
 
 ```typescript
 {
   name: getAppName(),
-  slug: 'mobile-app',
-  scheme: 'app',
-  owner: 'waizly',
+  slug: process.env.EXPO_SLUG,
+  scheme: process.env.APP_SCHEME,
+  owner: process.env.EXPO_OWNER,
   orientation: 'portrait',
   userInterfaceStyle: 'automatic',
   splash: {
@@ -222,7 +225,6 @@ android: {
     resizeMode: 'contain',
     backgroundColor: '#ffffff',
   },
-  newArchitecture: true,
   experiments: {
     reactCompiler: true,
     typedRoutes: true,
@@ -231,8 +233,9 @@ android: {
 ```
 
 **Key Features Enabled:**
-- **New Architecture**: React Native's new architecture (Fabric)
+- **React Compiler**: Experimental React Compiler for better performance
 - **Typed Routes**: Type-safe navigation with Expo Router
+- **New Architecture**: React Native's new architecture (Fabric & Bridgeless) enabled via build properties
 
 ### Plugin Configuration
 

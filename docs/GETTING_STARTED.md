@@ -1,6 +1,6 @@
 # Getting Started
 
-This guide will help you set up the mobile app development environment and run the application locally.
+This guide will help you set up the Expo Base Template development environment and run the application locally.
 
 ## Prerequisites
 
@@ -34,7 +34,7 @@ Follow these steps to set up the project:
 
 ```bash
 git clone <repository-url>
-cd mobile-app
+cd expo-base
 ```
 
 ### 2. Install Dependencies
@@ -61,23 +61,30 @@ cp .env.example .env.local  # If example file exists
 Add the required environment variables (see [Configuration](./CONFIGURATION.md) for details):
 
 ```env
-EXPO_PUBLIC_GOOGLE_MAPS_API_KEY=your_google_maps_api_key
-GOOGLE_SERVICES_JSON=./google-services.json
-APP_VARIANT=development
+APP_NAME=YourAppName
+APP_BUNDLE_ID=com.yourcompany.app
+APP_VARIANT=dev
+APP_SCHEME=yourapp
+EXPO_SLUG=your-app-slug
+EXPO_PROJECT_ID=your-expo-project-id
+EXPO_OWNER=your-expo-username
 ```
 
-### 4. Configure Google Services
+### 4. Configure Additional Services (Optional)
 
-Place your `google-services.json` file in the root directory for Android Firebase integration.
+Depending on your app needs, you may need to configure:
+- Firebase/Google Services (place `google-services.json` in root)
+- Sentry for error tracking
+- Other third-party services
 
 ## Running the App
 
 ### Start the Development Server
 
 ```bash
-bun start
-# or
 bun dev
+# or
+bun start
 ```
 
 This will start the Expo development server. You'll see a QR code and options to open the app on different platforms.
